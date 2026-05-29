@@ -1,0 +1,30 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS - ICON
+    =================
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*
+    For the purposes of Fall-Back these styles are applied as presentation attributes to each
+    `symbol` element in the main page markup.
+    The styles here are left in for reference and example only with the exception of
+    `display: inline;` which is here to allow icons to remain hidden if the stylesheet doesn't load.
+    E.g. using `display: none;` on the `<svg>` to hide icons that should be hidden if styles aren't
+    available, but omit that if they should always be visible.
+*/
+#{$es__component__icon} {
+    //display: inline;
+    /*
+    fill: none;
+    fill-opacity: 0;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0;
+    padding: 0;
+    */
+}

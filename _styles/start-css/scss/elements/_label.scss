@@ -1,0 +1,29 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: label
+    v3.0.0
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+@use 'sass:math';
+
+/*
+    1. Remove the tapping delay from clickable elements.
+*/
+#{$s__namespace}label {
+    display: inline-block;
+
+    padding-top: math.div($s__base-rem-space-unit, 4);
+    padding-bottom: math.div($s__base-rem-space-unit, 4);
+
+    margin: 0;
+
+    font-weight: bold;
+
+    vertical-align: middle;
+
+    cursor: pointer;
+
+    touch-action: manipulation; /* 1 */
+}

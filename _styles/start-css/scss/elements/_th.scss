@@ -1,0 +1,32 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: th
+    v3.0.0
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*
+    1. Calc to deduct any border-width.
+*/
+#{$s__namespace}th {
+    padding-top: calc(#{$s__th-cell-padding} - #{$s__th-border-width}); /* 1 */
+    padding-right: $s__th-cell-padding;
+    padding-bottom: $s__th-cell-padding;
+    padding-left: $s__th-cell-padding;
+
+    border-width: var(--table-border-width, var(--base-border-width));
+    border-style: var(--table-border-style, var(--base-border-style));
+    border-color: var(---th-border-color, var(--table-color, var(--base-ui-color)));
+
+    --background-color: var(--th-color, var(--base-ui-color-lighter));
+    @include s__theme(var(--th-color--text, var(--base-ui-color-lighter--text)));
+}
+
+/*
+    Reduce last row table cell padding to counteract the table border to preserve the vertical
+    rhythm.
+*/
+#{$s__namespace}tbody tr:last-child th {
+    padding-bottom: calc(#{$s__th-cell-padding} - #{$s__th-border-width}); /* 1 */
+}

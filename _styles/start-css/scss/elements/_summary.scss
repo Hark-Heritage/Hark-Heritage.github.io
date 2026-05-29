@@ -1,0 +1,125 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: summary
+    v3.0.0
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*
+    1. Remove the tapping delay from clickable elements.
+*/
+#{$s__namespace}summary {
+    touch-action: manipulation; /* 1 */
+
+    position: relative;
+
+    cursor: pointer;
+
+    @if $s__use-focus-shadow {
+        &:focus,
+        &:focus-visible {
+            outline: 2px solid transparent;
+            box-shadow: $s__outline-shadow;
+        }
+    }
+}
+
+    @media (forced-colors: none) {
+
+        /*
+            1. Correct display is  list-item, which adds the marker, but we're adding our own marker.
+        */
+        #{$s__namespace}summary {
+            display: block; /* 1 */
+        }
+
+        /*
+            Note there's a Webkit bug (https://bugs.webkit.org/show_bug.cgi?id=213349) that affects
+            Safari and prevents the marker animation on 17.3-.This is acceptable. However, in 13.1 the
+            marker doesn't rotate at all until the focus moves off the summary, so I'm cutting out
+            support for the custom marker on Safari 13.1-
+        */
+        @supports (text-orientation: mixed) {
+            /* Hide the details marker as we're supplying our own. */
+            #{$s__namespace}summary::-webkit-details-marker {
+                display: none;
+            }
+
+            /*
+                Add an icon.
+                Note the CSS triangle approached (commented) actually turns into a square in High Contrast
+                Mode so using a SVG data uri instead.
+            */
+            #{$s__namespace}details > summary::before {
+                display: block;
+                content: "";
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 20' xml:space='preserve'%3E%3Cpath d='m0 0 18 10L0 20V0z'/%3E%3C/svg%3E");
+                position: absolute;
+                width: 0.8em;
+                height: 0.8em;
+                top: 0.5ex;
+                margin-left: -1.2em;
+                transition: transform 0.5s ease;
+                transform-origin: 40% 50%;
+
+
+                //display: block;
+                //content: '';
+
+                //width: 0px;
+                //height: 0px;
+                //border-top: 0.5em solid transparent;
+                //border-bottom: 0.5em solid transparent;
+                //border-left: 0.9em solid currentColor;
+
+                //position: absolute;
+                //margin-left: -1.4em;
+                //margin-top: 0.5em;
+
+                //font-size: 0.75em;
+                //font-family: serif;
+
+                //vertical-align: top;
+
+                //transition: transform 0.2s ease;
+            }
+
+            #{$s__namespace}details[open] > summary::before {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    /*
+        Summary elements allow headings as children but this seems to be
+        a: rare
+        b: unhelpful for accessibility
+        c: changes the font-size and so the icon slips out of position
+
+        So I've taken the decision to override any font-size changes to keep the icon position,
+        since any system using headings inside summmaries would have to add styling to reposition
+        the icon, they might as well add the desired font-size too.
+    */
+    #{$s__namespace}details > summary * {
+        font-size: inherit;
+        line-height: inherit;
+    }
+
+
+    #{$s__namespace}details > summary + * {
+        margin-top: 0;
+        padding-top: 0;
+    }
+
+    #{$s__namespace}details :last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+
+    @supports not selector(::details-content) {
+        #{$s__namespace}details[open] > summary {
+            margin-bottom: var(--base-rem-space-unit);
+        }
+    }

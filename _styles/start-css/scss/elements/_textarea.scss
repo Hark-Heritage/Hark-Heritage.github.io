@@ -1,0 +1,59 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: textarea
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+@use 'sass:math';
+
+/*
+    1. For IE, mainly.
+    2. Edge 12+, Internet Explorer 11-. Without this it acts like overflow: scroll.
+    3. Keep labels at the top of the container.
+    4. Remove the tapping delay from clickable elements.
+*/
+#{$s__namespace}textarea {
+    //min-height: $s__base-rem-space-unit * 3.5 - ($s__textarea-border-width * 2); /* 1 */
+
+    overflow: auto; /* 2 */
+
+    margin-top: math.div($s__base-rem-space-unit, 12);
+    margin-bottom: 0.9rem;
+
+    padding-left: $s__textarea-h-padding;
+    padding-right: $s__textarea-h-padding;
+
+    border-width: $s__textarea-border-width;
+    border-radius: $s__textarea-border-radius;
+    border-color: $s__textarea-border-color;
+    border-style: $s__textarea-border-style;
+
+    //color: $s__textarea-text-color;
+    //background-color: $s__textarea-background-color;
+    --background-color: var(--textarea--color, #fff);
+    @include s__theme(var(--textarea-color--text, var(--color)));
+
+    font-size: inherit;
+    font-family: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+
+    vertical-align: top; /* 3 */
+
+    touch-action: manipulation; /* 4 */
+
+    resize: $s__textarea-resize;
+}
+
+/*
+    1. Make sure focus is still visible in Forced Colour modes.
+        (https://www.sarasoueidan.com/blog/focus-indicators/)
+*/
+@if $s__use-focus-shadow {
+    #{$s__namespace}textarea:focus,
+    #{$s__namespace}textarea:focus-visible {
+        outline: 2px solid transparent; /* [1] */
+        box-shadow: $s__outline-shadow;
+    }
+}

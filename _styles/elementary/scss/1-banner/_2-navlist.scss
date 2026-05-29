@@ -1,0 +1,110 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    NAVLIST
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+#{$es__page_banner__navlist} {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    max-width: 100%;
+
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    
+}
+
+
+#{$es__page_banner__navlist} > * {
+    flex: 1 1 auto;
+}
+
+#{$es__page_banner__navlist}   p[role="list"] {
+    flex-grow: 999;
+}
+
+@if $e__nav-bar__link--spacing == false {
+    #{$es__page_banner__navlist}   p[role="list"],
+    #{$es__page_banner__navlist}   p[role="list"]   span[role="listitem"] {
+        margin-left: 0;
+    }
+}
+
+
+#{$es__page_banner__navlist}   a[href],
+#{$es__page_banner__navlist}   summary {
+    display: inline-block;
+
+    margin: 0;
+
+    padding-top: 0;
+    padding-right: $e__nav-bar--spacing * 2;
+    padding-bottom: 0;
+    padding-left: $e__nav-bar--spacing * 2;
+
+    border: 0;
+    border-radius: $e__nav-bar__link--border-radius;
+
+    box-shadow: none;
+
+    line-height: $e__nav-bar--height;
+
+    text-decoration: none;
+}
+
+
+#{$es__page_banner__navlist}    a[href] {
+    color: $e__nav-bar__link--color;
+    background-color: $e__nav-bar__link--background-color;
+}
+
+#{$es__page_banner__navlist}    a[href][aria-current] {
+    color: $e__nav-bar__link--color--alt;
+    background-color: $e__nav-bar__link--background-color--alt2;
+}
+
+#{$es__page_banner__navlist}    a[href]:hover,
+#{$es__page_banner__navlist}    a[href]:active {
+    border: 0;
+
+    color: $e__nav-bar__link--color--alt;
+    background-color: $e__nav-bar__link--background-color--alt;
+}
+
+#{$es__page_banner__navlist}   p[role="list"] a[href]:focus {
+    box-shadow: 0 0 0 $s__sz-xs rgba(0,0,0,.3);
+}
+
+
+
+
+/*
+p[role="list"] a[href][aria-current],
+#{$es__page_banner__navlist} > details > summary {
+    color: $e__nav-bar__link--color--alt;
+    background-color: $e__nav-bar__link--background-color--alt2;
+}
+
+
+p[role="list"] a[href]:hover,
+p[role="list"] a[href]:active,
+#{$es__page_banner__navlist} > details > summary:hover,
+#{$es__page_banner__navlist} > details > summary:active {
+    border: 0;
+
+    color: $e__nav-bar__link--color--alt;
+    background-color: $e__nav-bar__link--background-color--alt;
+}
+
+
+p[role="list"] a[href]:focus,
+#{$es__page_banner__navlist} > details > summary:focus {
+    box-shadow: 0 0 0 $s__sz-xs rgba(0,0,0,.3);
+}
+
+
+*/

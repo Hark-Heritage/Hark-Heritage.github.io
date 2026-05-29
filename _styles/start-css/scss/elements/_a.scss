@@ -1,0 +1,107 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: a
+    v3.0.0
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*
+    a:link a:visited a:hover a:active a:focus
+
+    1. Remove the tapping delay from clickable elements .
+*/
+#{$s__namespace}a[href] {
+
+    //color: $s__anchor-text-color;
+
+    //text-decoration: $s__anchor-text-decoration;
+    text-decoration: underline;
+
+    text-decoration-line:      underline;
+    text-decoration-style:     $s__anchor-line-style;
+    text-decoration-thickness: $s__anchor-line-width;
+
+    touch-action: manipulation; /* 1 */
+
+    &:hover,
+    &:active {
+        text-decoration: underline $s__anchor-line-style--alt currentColor $s__anchor-line-width;
+    }
+
+    & img:hover,
+    & svg:hover {
+        outline-color: transparent;
+    }
+
+    /*
+        1. Make sure focus is still visible in Forced Colour modes.
+           (https://www.sarasoueidan.com/blog/focus-indicators/)
+    */
+    @if $s__use-focus-shadow {
+        &:focus,
+        &:focus-visible {
+            outline: 1px solid transparent; /* [1] */
+            box-shadow: $s__outline-shadow;
+        }
+    }
+
+}
+
+/*
+    Fix for linked images:
+*/
+@supports selector(:has(> img)) {
+    #{$s__namespace}a[href]:has(> img) {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+/*
+    Sometimes anchors can be used without an href, and may contain icons etc, so make sure styles
+    are applied to ALL anchors where appropriate.
+*/
+#{$s__namespace}a {
+    // Give link icons some space unless they're the only child.
+    & svg {
+        vertical-align: text-top;
+        margin-left: 0.25em;
+        margin-right: 0.25em;
+    }
+}
+
+@if $s__anchor-add-external-link-indicator == true {
+
+
+    // Fix for linked images:
+    @supports selector(:has(> img)) {
+        #{$s__namespace}a[href][rel~="external"] {
+            padding-right: $s__anchor-external-link-indicator-padding;
+            background-image: linear-gradient(45deg, transparent 65%, currentColor 65%);
+            background-repeat: no-repeat;
+            background-position: right 0.4em bottom 0.4em;
+            background-size: 0.6em 0.6em;
+        }
+
+        #{$s__namespace}a[href][rel~="external"]:has(> img) {
+            display: inline-block;
+            position: relative;
+            background-image: none;
+            padding-right: 0;
+
+            &::after {
+                content: "";
+                display: block;
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 1.2rem;
+                height: 1.2rem;
+                background-image: linear-gradient(45deg, transparent 50%, #fff 50%, #fff 60%, currentColor 60%);
+                background-repeat: no-repeat;
+                background-position: right top;
+            }
+        }
+    }
+}

@@ -1,0 +1,307 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS MIXINS
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+@use 'sass:math';
+
+/*
+    Apply a border and a padding that offsets the border-width from one spacing unit so as not to
+    affect the vertical rhythm.
+    Note the Opera Mini doesn't support `calc` so we need to include normal padding for that
+    browser.
+    Also, since we're supporting FF 8+, we're including -moz-calc for versions up to 16.
+    I may consider removing this as those browsers are dead, but I'm just being thorough for now.
+
+    Note on the 'last margin' issue/hack:
+    The pseudo element is intended to provide a collapsible margin to cancel out any 'trailing'
+    margins from content elements. However, since we're reducing the whole padding space by the
+    border-width to maintain the vertical rhythm, that margin is also less, BUT the content margin
+    is NOT being reduced, so that wins out - the reduction is ignored.
+    If the pseudo element bottom margin is adjusted to cancel out the height (1px) AS WELL AS
+    the amount of border-width, but the last element DOES NOT have a margin, then the space becomes
+    too small.
+    If pseudo-element height is 0, it doesn't work in IE, Chrome, Safari, without inline-block
+*/
+@mixin s__bordered($padding: 1em, $border-width: 1px, $border-color: uiColor, $border-style: solid) {
+    @if $border-width != 0 {
+        border-width: $border-width;
+        border-style: $border-style;
+        @if $border-color == uiColor {
+            $border-color: var(--base-ui-color);
+        }
+        border-color: $border-color;
+    }
+
+    @if $padding != 0 {
+        @if $border-width != 0 {
+            padding: calc(#{$padding} - #{$border-width});
+        } @else {
+            padding: #{$padding};
+        }
+    }
+
+    /*
+    @if $s__use-last-child-margin-zero {
+        padding-bottom: #{$padding};
+        //padding-bottom: -moz-calc(#{$padding} - #{$border-width});
+        padding-bottom:      calc(#{$padding} - #{$border-width});
+    } @else {
+        padding-bottom: 0;
+        &::after {
+            display: block;
+
+            content: "";
+
+            height: 1px;
+
+            margin-top: $padding;
+
+            margin-bottom: -1px;
+            //margin-bottom: -moz-calc(-1px - #{$border-width});
+            margin-bottom:      calc(-1px - #{$border-width});
+        }
+    }
+    */
+}
+
+/*
+    This button mixin isn't really meant for generating specific/themed _types_ of button - there
+    would be too much code duplication for that.
+    Instead, this is intended to create buttons for new/custom selectors.
+    For example:
+
+    ```
+    [role="button"] {
+        @include s__button;
+    }
+    ```
+
+    rather than:
+
+    ```
+        .btn--affirmative {
+            @include s__button(<text-color>, <bg-color>);
+        }
+    ```
+
+    Note - because of this, think about removing parameters (it changed from my original intention -
+    I may change it back or split this into 2 mixins, or even just move things that are meant for
+    input[type="button"] to that ruleset - actually that's not a bad idea).
+
+*/
+/*
+    1. Remove the tapping delay from clickable elements.
+
+    Sort out the height of buttons. At 12px spacing, should be 30px high with 3px top/bottom margin.
+    Note Edge doesn't like: `line-height: calc(3rem - 2px)` if `display: inline-flex`
+    FF8 - ? doesn't like `line-height: -moz-calc()` and ignores
+    Need to make sure height is governed by line-height in case of breaks within buttons.
+*/
+@mixin s__button(
+        $color: $s__button-text-color,
+        $bg-color: $s__button-background-color,
+        $bg-color--alt: $s__button-background-color--alt,
+        $border-color: $s__button-border-color
+    ) {
+
+    min-height: $s__button-min-height;
+
+    //overflow: visible; /* S: Internet Explorer 11-, N: Show the overflow in Edge, Firefox, and IE. */
+
+    margin: calc($s__base-rem-space-unit / 8) 0;
+
+    border-color: var(--button-border-color, var(--base-ui-color));
+    border-style: var(--button-border-style, var(--base-border-style));
+    --border-width: var(--button-border-width, var(--base-border-width));
+    border-width: var(--border-width);
+    border-radius: var(--button-border-radius, var(--base-border-radius));
+
+
+    padding-top:    calc(var(--button-inline-padding, var(--sz-xxs)) - var(--border-width));
+    padding-bottom: calc(var(--button-inline-padding, var(--sz-xxs)) - var(--border-width));
+    padding-right: var(--button-inline-padding, var(--sz-xs));
+    padding-left:  var(--button-inline-padding, var(--sz-xs));
+
+
+    //--background-color: var(--button-background-color, var(--base-ui-color));
+    //background-color: var( --background-color);
+    --background-color: var(--button-color, var(--base-ui-color));
+    @include s__theme(var(--button-color--text, var(--base-ui-color--text)));
+
+
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: $s__base-rem-space-unit;
+
+
+    vertical-align: middle; // Keep adjacent elements in the middle:
+
+    text-transform: none; /* [N0], N: Remove the inheritance of text transform in Edge, Firefox, and IE. */
+
+    cursor: pointer;
+
+    touch-action: manipulation; /* 1 */
+
+    -webkit-appearance: none;
+
+    display: inline-flex;
+    align-items: center;
+
+    &:hover,
+    &:active {
+        --background-color: var(--button-background-color-alt, var(--base-ui-color-light));
+        background-color: var( --background-color);
+    }
+
+    //$s__button-background-color--alt: darken !default; // lighten | darken | <colour> | false;
+    // @if $bg-color--alt != false {
+    //     &:hover,
+    //     &:active {
+    //         @if s__is-int($bg-color--alt) {
+    //             @if $bg-color--alt > 0 {
+    //                 $bg-color--alt_percent: $bg-color--alt * 1%;
+    //                 background-color: lighten($bg-color, $bg-color--alt_percent);
+    //             }
+    //             @if $bg-color--alt < 0 {
+    //                 $bg-color--alt_percent: $bg-color--alt * -1%;
+    //                 background-color: darken($bg-color, $bg-color--alt_percent);
+    //             }
+    //         } @else {
+    //             background-color: $bg-color--alt;
+    //         }
+    //     }
+    // }
+
+
+    // Thinking about changing my mind how I do this. It's getting too complicated. I've thought
+    // harder about how to handle alternate state from an a11y perspective the old "Don't just rely
+    // on color" keeps going around my head, so a subtle background-color tint-shift doesn't
+    // really cut it. Adding 'inner-lines' via shadows (outline has NO rounded corners) creates a
+    // bigger difference.
+    // I mustn't forget Start-CSS isn't supposed to provide configuration to add EVERYTHING directly
+    // to this one file - it's easy enough to add custom styling on top of this - I just want to
+    // make sure everything I DO include is configurable, or turn-off-able.
+    // So, IF the user wants to use my inner-line shadow idea, they can, otherwise, they can set the
+    // var to `false` and add their own however they like.
+    /*
+        1. Make sure focus is still visible in Forced Colour modes.
+           (https://www.sarasoueidan.com/blog/focus-indicators/)
+    */
+    @if $s__use-focus-shadow {
+        &:focus,
+        &:focus-visible {
+            outline: 2px solid transparent; /* [1] */
+            box-shadow: $s__outline-shadow;
+        }
+    }
+}
+
+
+// Fluid Typography
+// https://css-tricks.com/snippets/css/fluid-typography/
+
+@mixin s__fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
+    $u1: unit($min-vw);
+    $u2: unit($max-vw);
+    $u3: unit($min-font-size);
+    $u4: unit($max-font-size);
+
+    @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+            & {
+            font-size: $min-font-size;
+            @media screen and (min-width: $min-vw) {
+                font-size: calc(#{$min-font-size} + #{s__strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{s__strip-unit($max-vw - $min-vw)}));
+            }
+            @media screen and (min-width: $max-vw) {
+                font-size: $max-font-size;
+            }
+        }
+    }
+}
+
+
+/*
+    Uni-directional margins (bottom) is fine for most cases, but things like figcaptions that may
+    contain paragraphs can result in double bottom margins, so flipping that around inside those
+    containers.
+* /
+@mixin s__fix_internal_margins($margin-size) {
+    & * {
+        margin-bottom: 0;
+    }
+
+    & * + * {
+        margin-top: $margin-size;
+    }
+}
+*/
+
+/*
+    Note - most block elements have top/bottom margins. There are different trains of thought about
+    how these should be provided and previous StartCSS versions catered for two of these.
+    Currently there's only one (but controlled by custom properties), however to cater for any
+    future changes / options I'm keeping this as a mixin .
+*/
+@mixin s__margins($margin, $margin-type: default) {
+    @if $margin-type == 'default' {
+        margin-top: var(--m);
+        margin-bottom: var(--m);
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+@mixin s__theme($text-color-value) {
+    background-color: var(--background-color);
+
+    @supports not (color: oklch(from red l c h)) {
+        --text-color: #{$text-color-value};
+        color: var(--text-color);
+    }
+
+
+    //@if $fallback-intermediate-name {
+    //    --background-color: var(#{$name}, var(#{$fallback-intermediate-name}, var(#{$fallback-name})));
+    //    background-color: var(--background-color);
+//
+    //    @supports not (color: oklch(from red l c h)) {
+    //        color: var(#{$name}--text, var(#{$fallback-intermediate-name}--text, var(#{$fallback-name}--text, var(--color))));
+    //    }
+    //} @else {
+    //    --background-color: var(#{$name}, var(#{$fallback-name}));
+    //    background-color: var(--background-color);
+//
+    //    @supports not (color: oklch(from red l c h)) {
+    //        color: var(#{$name}--text, var(#{$fallback-name}--text, var(--color)));
+    //    }
+    //}
+}
+
+
+
+//@mixin s__overflow-scroll() {
+//    max-width: 100%;
+//    overflow: auto;
+//
+//    background-image:
+//        linear-gradient(-90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 60%, rgba(255,255,255,1) 100%),
+//        linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 60%, rgba(255,255,255,1) 100%),
+//        linear-gradient(to right, rgba(0, 0, 20, 0.5), rgba(255, 255, 255, 0)),
+//        linear-gradient(to left, rgba(0, 0, 20, 0.5), rgba(255, 255, 255, 0));
+//    background-position: left center, right center, left center, right center;
+//    background-repeat: no-repeat;
+//    background-color: white;
+//    background-size: 2em 100%, 2em 100%, 1em 100%, 1em 100%;
+//    background-attachment: local, local, scroll, scroll;
+//}

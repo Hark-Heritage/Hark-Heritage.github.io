@@ -1,0 +1,28 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: caption
+    v3.0.0
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*
+    1. If table is in a figure which is scrolling the caption may be so wide as to not be visible.
+       Limiting the width to the figure's width helps keep this in view.
+       Note this is a magic number and needs work. May need to jet left-align the caption.
+*/
+#{$s__namespace}caption {
+    display: table-caption;
+
+    max-width: 44em; /* [1] */
+
+    padding-top: var(--caption-padding, calc(var(--base-rem-space-unit) / 2));
+    padding-right: var(--caption-padding, calc(var(--base-rem-space-unit) / 2));
+    padding-bottom: var(--caption-padding, calc(var(--base-rem-space-unit) / 2));
+    padding-left: var(--caption-padding, calc(var(--base-rem-space-unit) / 2));
+
+    --background-color: var(--caption-color, var(--table-color, var(--base-ui-color)));
+    @include s__theme(var(--caption-color--text, var(--table-color--text, var(--base-ui-color--text))));
+
+    font-weight: bold;
+}

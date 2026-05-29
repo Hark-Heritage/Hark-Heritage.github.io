@@ -1,0 +1,37 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: optgroup
+    v3.0.0
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*
+    1. The default cannot safely be changed in Chrome and Safari on OS X. ?? Not sure what this means now.
+*/
+#{$s__namespace}optgroup {
+    //color: $s__optgroup-text-color;
+    //background-color: $s__optgroup-background-color;
+    --background-color: var(--optgroup--color, #fff);
+    @include s__theme(var(--optgroup-color--text, var(--color)));
+
+    font-weight: bold; /* 1 */
+    font-style: inherit;
+    font-size: inherit;
+    font-family: inherit;
+
+    &::before {
+        padding-right: $s__option-h-padding;
+        padding-left: $s__option-h-padding;
+
+        min-height: $s__base-rem-space-unit;
+        line-height: $s__base-rem-space-unit;
+
+        --background-color: var(--optgroup-label-color, var(--base-ui-color-lightest));
+        @include s__theme(var(--optgroup-label-color--text, var(--base-ui-color-lightest--text)));
+    }
+
+    & > option {
+        margin-left: #{$s__option-h-padding * 2};
+    }
+}

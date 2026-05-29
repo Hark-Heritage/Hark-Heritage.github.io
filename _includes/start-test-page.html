@@ -1,0 +1,1171 @@
+<h2 id="brief-intro">Brief Intro</h2>
+
+<p>
+StartCSS is designed to be highly configurable, but also work out-of-the-box. The general idea is that you can apply it to a well-formed HTML document and things will generally look pretty decent and be accessible.
+You can also use it as starting point for a more comprehensive framework.
+</p>
+<p>
+Because it's meant to be approach-agnostic, StartCSS doesn't use classes so there are a few edge cases where things doen't work quite as smoothly as I'd like, even in this test document.
+For example the video-inside-figure scenario results in the top-part of the focus-shadow being clipped, and the image-inside-link scenario also has a focus-shadow issue where little extra bits of shadow appear in the left top and bottom corners.<br>
+<strong>UPDATE:</strong> CSS <code>:has</code> is widley supported (hooray). If you're supporting browsers with no <code>:has</code> support then read on: </br>
+If using StartCSS as part of framework you can add a class such as <code>has-media</code> to the figure or link respectively and fix these issues easily enough, but until we get the <code>:has</code> parent selector these are currently unfixable in raw StartCSS.
+</p>
+<p>E.g.</p>
+
+<pre><code>CSS:
+a.has-media {
+    box-shadow: none;
+}
+
+figure.has-media {
+    overflow: visible;
+}
+
+---
+
+HTML:
+
+&lt;figure class="has-media"&gt;
+    &lt;video&gt;...&lt;/video&gt;
+&lt;/figure&gt;
+
+...
+
+&lt;a href="" class="has-media"&gt;
+    &lt;img ... &gt;
+&lt;/a&gt;
+</code></pre>
+
+<h3>Browser support</h3>
+
+<p>StartCSS wraps everything in the feature query: @supports (font-size: clamp(10px, 1vw, 12px)) to 'cut' older browsers that might break visual presentation. Support for this feature is as follows:</p>
+
+
+<p>
+Edge 79+, Chrome 79+, Firefox 75+, Opera 66+, Safari 13.1+, iOS 13.4+, Android ~117+ (unable to test earlier than 117)<br>
+<a href="https://caniuse.com/css-math-functions">Can I Use Clamp</a>
+</p>
+
+<p>It's recommended to also load StartCSS using the <a href="https://github.com/Fall-Back/CSS-Mustard-Cut#prm-cut-prefers-reduced-motion" rel="external">PRM Mustard Cut</a> which supports the following browsers according to <a hreef="https://caniuse.com/prefers-reduced-motion">CanIUse</a>:</p>
+
+
+
+<p>
+Print (Edge doesn't apply to print otherwise)<br>
+Edge 79+, Chrome 74+, Firefox 63+, Opera 64+, Safari 10.1+, iOS 10.3+, Android 81+
+</p>
+
+<h2>Colours</h2>
+<div id="colours">
+    <p style="--background-color: var(--base-ui-color-lightest);"><input type="color" value="#F6F1E9"> Lightest <span>(#F6F1E9)</span></p>
+    <p style="--background-color: var(--base-ui-color-lighter);"><input type="color" value="#EDE3D5"> Lighter <span>(#EDE3D5)</span></p>
+    <p style="--background-color: var(--base-ui-color-light);"><input type="color" value="#E4D5C0"> Light <span>(#E4D5C0)</span></p>
+    <p style="--background-color: var(--base-ui-color);"><input type="color" value="#D0BA98"> Base <span>(#D0BA98)</span></p>
+    <p style="--background-color: var(--base-ui-color-dark);"><input type="color" value="#A39177"> Dark <span>(#A39177)</span></p>
+    <p style="--background-color: var(--base-ui-color-darker);"><input type="color" value="#776B59"> Darker <span>(#776B59)</span></p>
+    <p style="--background-color: var(--base-ui-color-darkest);"><input type="color" value="#4F473C"> Darkest <span>(#4F473C)</span></p>
+</div>
+
+<h2>Sizes</h2>
+<div id="sizes">
+    <p><span style="--width: var(--sz-xxs);"></span> XXS (/8)</p>
+    <p><span style="--width: var(--sz-xs);"></span> XS (/4)</p>
+    <p><span style="--width: var(--sz-s);"></span> S (/2)</p>
+    <p><span style="--width: var(--sz-m);"></span> M</p>
+    <p><span style="--width: var(--sz-l);"></span> L (*2)</p>
+    <p><span style="--width: var(--sz-xl);"></span> XL (*4)</p>
+    <p><span style="--width: var(--sz-xxl);"></span> XXl (*8)</p>
+</div>
+
+<h2 id="accessibility">Accessibility</h2>
+
+<h3>Visually Hidden</h3>
+
+<p>What follows is a visually-hidden (or screen-reader only) bit of text:</p>
+<p><button>Focus shortcut</button></p>
+<p><a href="#">Read more<span data-fs-hidden="visually" data-hidden="visually">&nbsp;about a thing.</span></a></p>
+
+<p><a href="#"><span data-fs-hidden="visually" data-hidden="visually">Page&nbsp;</span>1</a></p>
+
+<p>Note that visually hidden elements contain a forced space (<code>&amp;nbsp;</code>) to separate it from the visible words, or NVDA Chome (at least) conflate the words. IN the first example without the space it's read as "Read moreabout at thing."
+
+<p>What follows is a skip-link that is visually-hidden until focussed:</p>
+<p><button>Focus shortcut</button></p>
+
+<p><a href="#bottom" data-fs-hidden="visually-revealable" data-hidden="visually-revealable">Skip to bottom</a></p>
+
+
+<hr>
+
+
+<h2 id="sections">Sections</h2>
+
+<h3>Body</h3>
+
+<p>This page's <code>body</code> element demonstrates the styles StartCSS applies.</p>
+
+<h3>Article</h3>
+
+<article>
+    <p>This is a article element</p>
+</article>
+
+<h3>Section</h3>
+
+<section>
+    <p>This is a section element</p>
+</section>
+
+<h3>Nav</h3>
+
+<nav>
+    <p>This is a nav element</p>
+</nav>
+
+<h3>Aside</h3>
+
+<aside>
+<p>This is an aside element</p>
+</aside>
+
+
+<hr>
+
+
+<h2>Headings</h2>
+
+<h2>Heading 2</h2>
+<p>Pellentesque habitant morbi tristique <a href="#">some inline link</a> senectus et netus et <a href="#" rel="external">some inline external link</a> malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+
+<h3>Heading 3</h3>
+<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+
+<h4>Heading 4</h4>
+<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+
+<h5>Heading 5</h5>
+<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+
+<h6>Heading 6</h6>
+<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+
+
+<hr>
+
+
+<h2>This heading is very long but so we can test on using text-wrap: balance</h2>
+
+<hr>
+
+
+<h2>Heading 2<br>Simulate line-wrap</h2>
+<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+
+<h3>Heading 3<br>Simulate line-wrap</h3>
+<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+
+<h4>Heading 4<br>Simulate line-wrap</h4>
+<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+
+<h5>Heading 5<br>Simulate line-wrap</h5>
+<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+
+<h6>Heading 6<br>Simulate line-wrap</h6>
+<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+
+<header>
+    <h2>Heading 2<br>Simulate line-wrap</h2>
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+</header>
+
+<header>
+    <h3>Heading 3<br>Simulate line-wrap</h3>
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+</header>
+
+<header>
+    <h4>Heading 4<br>Simulate line-wrap</h4>
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+</header>
+
+<header>
+    <h5>Heading 5<br>Simulate line-wrap</h5>
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+</header>
+
+<header>
+    <h6>Heading 6<br>Simulate line-wrap</h6>
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+</header>
+
+<p>
+    Note that <code>header</code> elements are demonstrated above, <code>hgroups</code> are @TODO, and <code>footer</code> and <code>address</code> elements are demonstrated at the botom of this page.
+</p>
+
+
+<hr>
+
+
+<h2 id="grouping">Grouping</h2>
+
+<p>Note that <code>p</code>, <code>hr</code> and <code>pre</code> elements are demonstrated throughout this page.</p>
+<p>However, here's two examples of a <code>pre</code> element:</p>
+
+<pre><code>Small - no scrolling</code></pre>
+
+<pre><code>Large - this one should be wide so it scolls: Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</code></pre>
+
+
+<h3>Blockquotes</h3>
+
+<blockquote>
+     The people recognize themselves in their commodities; they find their
+     soul in their automobile, hi-fi set, split-level home, kitchen equipment.
+     — <cite><a href="https://en.wikipedia.org/wiki/Herbert_Marcuse">Herbert Marcuse</a></cite>
+</blockquote>
+
+<blockquote>
+    <p>I contend that we are both atheists. I just believe in one fewer
+    god than you do. When you understand why you dismiss all the other
+    possible gods, you will understand why I dismiss yours.</p>
+    <footer>— <cite>Stephen Roberts</cite></footer>
+</blockquote>
+
+
+<h2>Lists</h2>
+
+<p>Note that the <code>menu</code> list is currently not demonstrated - <a href="https://css-tricks.com/newer-things-to-know-about-good-ol-html-lists/">I need to look into that</a>.
+</p>
+
+<h3><code>ol</code></h3>
+<p>I have lived in the following countries (given in the order of when I first lived there):</p>
+<ol>
+    <li>Switzerland</li>
+    <li>United Kingdom</li>
+    <li>United States</li>
+    <li>Norway</li>
+</ol>
+
+<p id="tmp-lists">Same list with various type attributes (the floated image tests the fix for <a href="https://paulbakaus.com/tutorials/css/block-formatting-contexts-and-lists" rel="external">list number/bullet position problem</a>).</p>
+
+<p class="float-img-test">
+    <img onerror="this.dataset.broken='true'" src="/dev/media/poster.jpg" alt="" width="300">
+</p>
+
+<ol type="1">
+    <li>Switzerland</li>
+    <li>United Kingdom</li>
+    <li>United States</li>
+    <li>Norway</li>
+</ol>
+
+<ol type="a">
+    <li>Switzerland</li>
+    <li>United Kingdom</li>
+    <li>United States</li>
+    <li>Norway</li>
+</ol>
+
+<ol type="A">
+    <li>Switzerland</li>
+    <li>United Kingdom</li>
+    <li>United States</li>
+    <li>Norway</li>
+</ol>
+
+<ol type="i">
+    <li>Switzerland</li>
+    <li>United Kingdom</li>
+    <li>United States</li>
+    <li>Norway</li>
+</ol>
+
+<ol type="I">
+    <li>Switzerland</li>
+    <li>United Kingdom</li>
+    <li>United States</li>
+    <li>Norway</li>
+</ol>
+
+<p>Same list reversed</p>
+
+<ol reversed>
+    <li>Switzerland</li>
+    <li>United Kingdom</li>
+    <li>United States</li>
+    <li>Norway</li>
+</ol>
+
+
+<p>Same list start at 5</p>
+
+<ol start="5">
+    <li>Switzerland</li>
+    <li>United Kingdom</li>
+    <li>United States</li>
+    <li>Norway</li>
+</ol>
+
+<p>Start at 5 AND reversed</p>
+
+<ol start="5" reversed>
+    <li>Switzerland</li>
+    <li>United Kingdom</li>
+    <li>United States</li>
+    <li>Norway</li>
+</ol>
+
+
+<p>Nested:</p>
+<ol>
+    <li>Switzerland</li>
+    <li>
+        United Kingdom
+        <ol>
+            <li>Manchester</li>
+            <li>Leeds</li>
+            <li>
+                London
+                <ol>
+                    <li>Inner</li>
+                    <li>Outer</li>
+                    <li>Greater</li>
+                </ol>
+            </li>
+        </ol>
+    </li>
+    <li>United States</li>
+    <li>Norway</li>
+</ol>
+
+<h3><code>ul</code></h3>
+<p>I have lived in the following countries:</p>
+<ul>
+    <li>Norway</li>
+    <li>Switzerland</li>
+    <li>
+        United Kingdom
+        <ul>
+            <li>Manchester</li>
+            <li>Leeds</li>
+            <li>
+                London
+                <ul>
+                    <li>Inner</li>
+                    <li>Outer</li>
+                    <li>Greater</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>United States</li>
+</ul>
+
+<h3><code>dl</code></h3>
+
+<dl>
+    <dt>Last modified time</dt>
+    <dd>2004-12-23T23:33Z</dd>
+    <dt>Recommended update interval</dt>
+    <dd>60s</dd>
+    <dt>Authors</dt>
+    <dt>Editors</dt>
+    <dd>Robert Rothman</dd>
+    <dd>Daniel Jackson</dd>
+</dl>
+
+
+<hr>
+
+
+<h2>Text-level elements</h2>
+
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-a-element" rel="external">[a]</a>: <a href="#">With href</a>. <a>Without href</a>. <a href="https://www.w3.org/TR/html5/text-level-semantics.html#text-level-semantics" rel="external">External link</a>.
+</p>
+    Testing a <code>&lt;code&gt;</code> element with in a link: <a href="https://developer.mozilla.org/en/docs/Web/HTML/Element/code">MDN’s article on the <code>&lt;code&gt;</code> element</a>
+<p>
+    Links may have icons (and may or may not also have an href), so let's see those:<br>
+    No href: <a><svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-edit"></use></svg>Icon then text</a>, closely followed by <a>Text then icon<svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-edit"></use></svg></a> and some more normal text.<br>
+    With href: <a href=""><svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-edit"></use></svg>Icon then text</a>, closely followed by <a href="">Text then icon<svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-edit"></use></svg></a> and some more normal text.
+</p>
+
+<p>
+    <button><svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-search"></use></svg><span> Search</span></button> Testing an icon in a button.
+</p>
+
+
+<p>
+    <button><svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-search"></use></svg><span data-fs-hidden="visually" data-hidden="visually"> Search</span></button> Testing an icon in a button with SR-only text.
+</p>
+
+
+<p>
+    On a related note, very long words like "rindfleischetikettierungsüberwachungsaufgabenübertragungsgesetz" (see <a href="https://en.wikipedia.org/wiki/Rinderkennzeichnungs-_und_Rindfleischetikettierungs%C3%BCberwachungsaufgaben%C3%BCbertragungsgesetz" rel="external">rindfleischetikettierungsüberwachungsaufgabenübertragungsgesetz</a>) need to be catered for with regards to word-wrapping.
+</p>
+
+<p>Images that are links need extra styles and testing:<br>
+    <a href="#"><img onerror="this.dataset.broken='true'" src="/dev/media/poster.jpg" height="144" width="266.226" style="width: auto; max-height: 144px;" rel="external" alt="Big Buck Bunny"></a>
+</p>
+
+<p>
+    <small>Here's a problem - if the image has a transparent background, the <code>a</code>'s bounding box (which is
+    inline and smaller than the image) is visible.
+    Outlines actually work as expected in this case but I can't use them because of the lack of
+    rounded corners, hence the a > img selector reapplying the focus shadow.
+    I guess transparent images like this are an edge case, but it's something to keep an eye on.</small>
+</p>
+
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-em-element" rel="external">[em]</a> and <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-strong-element" rel="external">[strong]</a>: <em>Stress emphasis</em> and <strong>strong importance, seriousness, or urgency</strong>.
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-small-element" rel="external">[small]</a>: <small>side comments such as small print. <a href="#">Link border is adjusted to better suit smaller font size</a></small>.
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-s-element" rel="external">[s]</a>: <s>Contents that are no longer accurate or no longer relevant</s>.
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-cite-element" rel="external">[cite]</a>: A reference to a creative work. It must include the title of the work or the name of the author(person, people or organization) or an URL reference, or a reference in abbreviated form as per the conventions used for the addition of citation metadata. E.g. In the words of <cite>Charles Bukowski</cite> -  <q>An intellectual says a simple thing in a hard way. An artist says a hard thing in a simple way.</q>.
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-q-element" rel="external">[q]</a>: content quoted from another source. E.g. The man said <q>Things that are impossible just take longer</q>. I disagreed with him.
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-abbr-element" rel="external">[abbr]</a>: An abbreviation or acronym, optionally with its expansion. The title attribute may be used to provide an expansion of the abbreviation. The attribute, if specified, must contain an expansion of the abbreviation, and nothing else. E.g. The <abbr title="Web Hypertext Application Technology Working Group">WHATWG</abbr> started working on HTML5 in 2004.
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-dfn-element" rel="external">[dfn]</a>: Represents the defining instance of a term. E.g. The <dfn><abbr title="Garage Door Opener">GDO</abbr></dfn> is a device that allows off-world teams to open the iris. --- later... --- Teal'c activated his <abbr title="Garage Door Opener">GDO</abbr> and so Hammond ordered the iris to be opened.
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-time-element" rel="external">[time]</a>: Represents its contents, along with a machine-readable form of those contents in the datetime attribute. The kind of content is limited to various kinds of dates, times, time-zone offsets, and durations. E.g. <time class="dtstart" datetime="2005-10-05">October 5</time>.
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-code-element" rel="external">[code]</a>: Represents a fragment of computer code. E.g. The <code>code</code> element represents a fragment of computer code.
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-var-element" rel="external">[var]</a>: Represents a variable. E.g. If there are <var>n</var> pipes leading to the ice cream factory...
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-samp-element" rel="external">[samp-]</a>: Represents a sample or quoted output from another program or computing system. E.g. The computer said <samp>Too much cheese in tray two</samp> but I didn't know what that meant.
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-kbd-element" rel="external">[kbd]</a>: Represents user input (typically keyboard input, although it may also be used to represent other input, such as voice commands). E.g. To make George eat an apple, press <kbd><kbd>Shift</kbd>+<kbd>F3</kbd></kbd>.
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-sup-element" rel="external">[sup and sup]</a>: Represents a superscript and the sub element represents a subscript. The most beautiful women are <span lang="fr"><abbr>M<sup>lle</sup></abbr> Gwendoline</span> and <span lang="fr"><abbr>M<sup>me</sup></abbr> Denise</span>. The coordinate of the <var>i</var>th point is (<var>x<sub><var>i</var></sub></var>, <var>y<sub><var>i</var></sub></var>). For example, the 10th point has coordinate (<var>x<sub>10</sub></var>, <var>y<sub>10</sub></var>).
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-i-element" rel="external">[i]</a>: Represents a span of text in an alternate voice or mood, or otherwise offset from the normal prose in a manner indicating a different quality of text, such as a taxonomic designation, a technical term, an idiomatic phrase from another language, transliteration, a thought, or a ship name in Western texts. E.g. The <i class="taxonomy">Felis silvestris catus</i> is cute. The term <i>prose content</i> is defined above. There is a certain <i lang="fr">je ne sais quoi</i> in the air.
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-b-element" rel="external">[b]</a>: Represents a span of text to which attention is being drawn for utilitarian purposes without conveying any extra importance and with no implication of an alternate voice or mood, such as key words in a document abstract, product names in a review, actionable words in interactive text-driven software, or an article lede. E.g. The <b>frobonitor</b> and <b>barbinator</b> components are fried. <b>Emboldened text can be nested 2 levels deep and <code>bolder</code> should be applied to the inner level, like <b>this</b>.</b>
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-u-element" rel="external">[u]</a>: Represents a span of text with an unarticulated, though explicitly rendered, non-textual annotation, such as labeling the text as being a proper name in Chinese text (a Chinese proper name mark), or labeling the text as being misspelt. E.g. The <u>see</u> is full of fish.
+</p>
+<p>
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-mark-element" rel="external">[mark]</a>: Represents a run of text in one document marked or highlighted for reference purposes, due to its relevance in another context. E.g. I also have some <mark>kitten</mark>s who are visiting me these days. They're really cute. I think they like my garden! Maybe I should adopt a <mark>kitten</mark>.
+</p>
+
+<p>
+    This is <b>paragraph</b><i> that has</i><code> a bunch</code> of <em>inline elements</em><s>that butt</s> up to one another to test out adjacency selectors.
+</p>
+
+
+<h2>Text-level Combinations</h2>
+<p>
+    Sometimes links have other elements nested within them. For example a link to <a href="https://www.w3.org/TR/css-fonts-3/#font-family-prop" rel="external">the <code>font-family</code> spec</a> containes a nested <code>&lt;code&gt;</code> element.
+    There's also the case where the <code>&lt;code&gt;</code> elements is the <em>only</em> child of a link, like this: <a href="https://www.w3.org/TR/css-fonts-3/#propdef-font-style" rel="external"><code>font-style</code></a>.
+    If any element that can be nested within another is too-heavily styled, complicatatons can occur.
+</p>
+<p>
+    Another possibility is a <a href="#">link with <mark>mark</mark> inside it</a>.
+</p>
+
+<p>Nest <b>bold with <i>italics</i> to test the</b> font properly.</p>
+
+<p>And again with nested <b>bold with <b><i>bolder italics</i></b> to test the</b> font some more.</p>
+
+
+<hr>
+
+
+<h2 id="forms">Forms</h2>
+
+
+<form>
+    <fieldset>
+        <p>Some inputs would be here, like this:</p>
+        <p>Here's a <button>Button</button></p>
+        <p>Here's a <button>Button with<br>a break</button></p>
+        <p><input type="button" value="input type[button]"></p>
+        <p><input type="reset" value="input type[reset]"></p>
+        <p><input type="submit" value="input type[submit]"></p>
+    </fieldset>
+    <fieldset>
+        <legend>A legend</legend>
+        <p>
+            <label for="input1-1">Enter some text:</label> <input type="text" id="input1-1"> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1a-1">Without <code>type</code> attribute:</label> <input type="text" id="input1a-1"> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1-2">Choose a file:</label> <input type="file" id="input1-2"> <button>Button</button>
+        </p>
+
+        <p>
+            <label for="input1-3">Select unit type:</label>
+            <select id="input1-3">
+                <option value="1">Miner Long Name Jones Bones</option>
+                <option value="2">Puffer</option>
+                <option value="3">Snipey</option>
+                <option value="4">Max</option>
+                <option value="5">Firebot</option>
+                <option value="6">Roger</option>
+                <option value="7">Dodger</option>
+                <option value="8">Codger</option>
+                <option value="9">Bodger</option>
+                <option value="10">Splodger</option>
+                <option value="11">Zodger</option>
+                <option value="12">Modger</option>
+            </select> <button>Button</button>
+        </p>
+
+        <p>
+            Multi-select: (note Mac Safari treats <code>size</code> attributes less than 4 as 4)
+        </p>
+
+        <p>
+            <label for="input1-3a">Select unit types (<code>size="2"</code>):</label>
+            <select id="input1-3a" multiple size="2">
+                <option value="1">Miner Long Name Jones Bones</option>
+                <option value="2">Puffer</option>
+                <option value="3">Snipey</option>
+                <option value="4">Max</option>
+                <option value="5">Firebot</option>
+                <option value="6">Roger</option>
+                <option value="7">Dodger</option>
+                <option value="8">Codger</option>
+                <option value="9">Bodger</option>
+                <option value="10">Splodger</option>
+                <option value="11">Zodger</option>
+                <option value="12">Modger</option>
+            </select> <button>Button</button>
+        </p>
+
+        <p>
+            <label for="input1-3b">Select unit types (<code>size="3"</code>):</label>
+            <select id="input1-3b" multiple size="3">
+                <option value="1">Miner Long Name Jones Bones</option>
+                <option value="2">Puffer</option>
+                <option value="3">Snipey</option>
+                <option value="4">Max</option>
+                <option value="5">Firebot</option>
+                <option value="6">Roger</option>
+                <option value="7">Dodger</option>
+                <option value="8">Codger</option>
+                <option value="9">Bodger</option>
+                <option value="10">Splodger</option>
+                <option value="11">Zodger</option>
+                <option value="12">Modger</option>
+            </select> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1-3c">Select unit types (<code>size="4"</code>):</label>
+            <select id="input1-3c" multiple size="4">
+                <option value="1">Miner Long Name Jones Bones</option>
+                <option value="2">Puffer</option>
+                <option value="3">Snipey</option>
+                <option value="4">Max</option>
+                <option value="5">Firebot</option>
+                <option value="6">Roger</option>
+                <option value="7">Dodger</option>
+                <option value="8">Codger</option>
+                <option value="9">Bodger</option>
+                <option value="10">Splodger</option>
+                <option value="11">Zodger</option>
+                <option value="12">Modger</option>
+            </select> <button>Button</button>
+        </p>
+
+        <p>
+            <label for="input1-3d">Select unit types (<code>size="5"</code>):</label>
+            <select id="input1-3d" multiple size="5">
+                <option value="1">Miner Long Name Jones Bones</option>
+                <option value="2">Puffer</option>
+                <option value="3">Snipey</option>
+                <option value="4">Max</option>
+                <option value="5">Firebot</option>
+                <option value="6">Roger</option>
+                <option value="7">Dodger</option>
+                <option value="8">Codger</option>
+                <option value="9">Bodger</option>
+                <option value="10">Splodger</option>
+                <option value="11">Zodger</option>
+                <option value="12">Modger</option>
+            </select> <button>Button</button>
+        </p>
+
+        <p>
+            <label for="input1-3e">Select unit types (<code>size="6"</code>):</label>
+            <select id="input1-3e" multiple size="6">
+                <option value="1">Miner Long Name Jones Bones</option>
+                <option value="2">Puffer</option>
+                <option value="3">Snipey</option>
+                <option value="4">Max</option>
+                <option value="5">Firebot</option>
+                <option value="6">Roger</option>
+                <option value="7">Dodger</option>
+                <option value="8">Codger</option>
+                <option value="9">Bodger</option>
+                <option value="10">Splodger</option>
+                <option value="11">Zodger</option>
+                <option value="12">Modger</option>
+            </select> <button>Button</button>
+        </p>
+
+        <p>
+            <label for="input1-3f">Select unit types (<code>size="7"</code>):</label>
+            <select id="input1-3f" multiple size="7">
+                <option value="1">Miner Long Name Jones Bones</option>
+                <option value="2">Puffer</option>
+                <option value="3">Snipey</option>
+                <option value="4">Max</option>
+                <option value="5">Firebot</option>
+                <option value="6">Roger</option>
+                <option value="7">Dodger</option>
+                <option value="8">Codger</option>
+                <option value="9">Bodger</option>
+                <option value="10">Splodger</option>
+                <option value="11">Zodger</option>
+                <option value="12">Modger</option>
+            </select> <button>Button</button>
+        </p>
+
+        <p>
+            <label for="input1-3g">Select unit types (<code>size="8"</code>):</label>
+            <select id="input1-3g" multiple size="8">
+                <option value="1">Miner Long Name Jones Bones</option>
+                <option value="2">Puffer</option>
+                <option value="3">Snipey</option>
+                <option value="4">Max</option>
+                <option value="5">Firebot</option>
+                <option value="6">Roger</option>
+                <option value="7">Dodger</option>
+                <option value="8">Codger</option>
+                <option value="9">Bodger</option>
+                <option value="10">Splodger</option>
+                <option value="11">Zodger</option>
+                <option value="12">Modger</option>
+            </select> <button>Button</button>
+        </p>
+
+        <p>
+            <label for="input1-3h">Select unit types (<code>size="9"</code>):</label>
+            <select id="input1-3h" multiple size="9">
+                <option value="1">Miner Long Name Jones Bones</option>
+                <option value="2">Puffer</option>
+                <option value="3">Snipey</option>
+                <option value="4">Max</option>
+                <option value="5">Firebot</option>
+                <option value="6">Roger</option>
+                <option value="7">Dodger</option>
+                <option value="8">Codger</option>
+                <option value="9">Bodger</option>
+                <option value="10">Splodger</option>
+                <option value="11">Zodger</option>
+                <option value="12">Modger</option>
+            </select> <button>Button</button>
+        </p>
+
+        <p>
+            <label for="input1-3i">Select unit types (<code>size="10"</code>):</label>
+            <select id="input1-3i" multiple size="10">
+                <option value="1">Miner Long Name Jones Bones</option>
+                <option value="2">Puffer</option>
+                <option value="3">Snipey</option>
+                <option value="4">Max</option>
+                <option value="5">Firebot</option>
+                <option value="6">Roger</option>
+                <option value="7">Dodger</option>
+                <option value="8">Codger</option>
+                <option value="9">Bodger</option>
+                <option value="10">Splodger</option>
+                <option value="11">Zodger</option>
+                <option value="12">Modger</option>
+            </select> <button>Button</button>
+        </p>
+
+        <p>
+            Testing <code>optgroup</code>s:
+        </p>
+
+        <p>
+            <label for="input1-3i">Select unit types (<code>size="10"</code>):</label>
+            <select id="input1-3i" multiple size="10">
+                <optgroup label="Group 1">
+                    <option value="1">Miner Long Name Jones Bones</option>
+                    <option value="2">Puffer</option>
+                    <option value="3">Snipey</option>
+                    <option value="4">Max</option>
+                </optgroup>
+                <optgroup label="Group 2 - Another group">
+                    <option value="5">Firebot</option>
+                    <option value="6">Roger</option>
+                    <option value="7">Dodger</option>
+                    <option value="8">Codger</option>
+                </optgroup>
+                <optgroup label="Group 3 - This one has a really long label to see what happens">
+                    <option value="9">Bodger</option>
+                    <option value="10">Splodger</option>
+                    <option value="11">Zodger</option>
+                    <option value="12">Modger</option>
+                </optgroup>
+            </select> <button>Button</button>
+        </p>
+
+        <p>
+            <input type="checkbox" id="input1-4"> <label for="input1-4">I agree to the terms</label>
+        </p>
+
+        <fieldset>
+            <p>
+                <input type="radio" id="input1-5a" name="input1-5"> <label for="input1-5a">Radio 1</label> <input type="radio" id="input1-5b" name="input1-5"> <label for="input1-5b">Radio 2</label>
+            </p>
+        </fieldset>
+
+        <p>
+            <label for="input1-5">Enter some text:</label> <textarea id="input1-5" rows="8">Some test text
+spanning multiple
+lines.</textarea>
+        </p>
+    </fieldset>
+    <fieldset>
+        <legend>A legend</legend>
+        <p>
+            <label for="input1-6"><code>&lt;color&gt;</code> input:</label> <input type="color" id="input1-6"> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1-7"><code>&lt;date&gt;</code> input:</label> <input type="date" id="input1-7"> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1-8"><code>&lt;datetime&gt;</code> input:</label> <input type="datetime" id="input1-8"> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1-9"><code>&lt;datetime-local&gt;</code> input:</label> <input type="datetime-local" id="input1-9"> <button>Button</button>
+        </p><p>
+            <label for="input1-10"><code>&lt;month&gt;</code> input:</label> <input type="month" id="input1-10"> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1-11"><code>&lt;number&gt;</code> input:</label> <input type="number" id="input1-11"> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1-12"><code>&lt;password&gt;</code> input:</label> <input type="password" id="input1-12"> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1-13"><code>&lt;range&gt;</code> input:</label> <input type="range" id="input1-13"> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1-14"><code>&lt;search&gt;</code> input:</label> <input type="search" id="input1-14"> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1-15"><code>&lt;tel&gt;</code> input:</label> <input type="tel" id="input1-15"> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1-16"><code>&lt;time&gt;</code> input:</label> <input type="time" id="input1-16"> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1-17"><code>&lt;url&gt;</code> input:</label> <input type="url" id="input1-17"> <button>Button</button>
+        </p>
+        <p>
+            <label for="input1-18"><code>&lt;week&gt;</code> input:</label> <input type="week" id="input1-18"> <button>Button</button>
+        </p>
+        <p>
+            Progress: <progress></progress>
+        </p>
+    </fieldset>
+</form>
+<form oninput="result.value=parseInt(a.value)+parseInt(b.value)">
+    <p>
+        Output: <input type="range" name="b" value="50" /> +
+        <input type="number" name="a" value="10" /> =
+        <output name="result">60</output>
+    </p>
+</form>
+<p>
+    <code>&lt;meter&gt;</code> examples:
+</p>
+<p>
+    Heat the oven to <meter min="200" max="500" value="350">350 degrees</meter>.
+</p>
+<p>
+    He got a <meter low="69" high="80" max="100" value="84">B</meter> on the exam.
+</p>
+
+
+<hr>
+
+
+<h2>Tables and Figures</h2>
+
+<p>
+    Content (especially tables__ that are inside <code>figures</code> are set to be responsive in a very basic way - by scrolling horizontally.
+</p>
+
+<figure>
+    <figcaption>HTML</figcaption>
+        <pre><code>&lt;!-- Chrome 29+, Opera 16+, Safari 6.1+, iOS 7+, Android ~4.4+, IE10+ (including Edge) --&gt;
+&lt;link rel="stylesheet" href="css/your-stylesheet.css"
+media="only screen and (-webkit-min-device-pixel-ratio:0) and (min-color-index:0), (-ms-high-contrast: none)"&gt;
+&lt;!-- FF29+ --&gt;
+&lt;link rel="stylesheet" href="css/your-stylesheet.css"
+media="only all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm)"&gt;
+</code></pre>
+</figure>
+
+
+<hr>
+
+
+<h3>Media</h3>
+
+<!--
+Improve/expand upon the SVG and link to dedicated page that contains more examples and
+explanation.
+-->
+<p>
+    Object loading an SVG:
+</p>
+<div class="box">
+    <object type="image/svg+xml" data="/dev/media/fallback-logo.svg" height="144" width="266" class="svg__image" style="width: auto; max-height: 144px;" tabindex="-1">
+        <p>Object failed to load.</p>
+    </object>
+</div>
+
+<p>Note, I'm not sure <code>&lt;object&gt;</code> elements are used much in the web anymore, but it's worth noting here that <code>tabindex="-1"</code> has been applied to the object element above because otherwise it has a keyboard tab stop (at least in Chrome and Firefox) but the browsers don't skip to it and there's no need for it as it's not interractive as it's showing an image.</p>
+
+
+<p>
+    Image:
+</p>
+<p>
+    <img onerror="this.dataset.broken='true'" src="/dev/media/poster.jpg"  alt="Big Buck Bunny" height="200" width="355" style="width: auto; max-height: 204px;">
+</p>
+
+<p>
+    Broken image:
+</p>
+<p>
+    <img onerror="this.dataset.broken='true';console.log('Ignore 404 warning - broken image is deliberate')" src="/dev/media/poster.jpgX"  alt="Big Buck Bunny - testing alt-text" height="200" width="355" style="width: auto; max-height: 204px;">
+</p>
+
+
+<hr>
+
+
+<p>Images inside <code>figure</code> elements:</p>
+
+<figure>
+   <img onerror="this.dataset.broken='true'" src="/dev/media/poster.jpg" width="640" height="360" style="width: auto; max-height: 360px;" alt="Big Buck Bunny">
+   <figcaption>
+        Image
+    </figcaption>
+</figure>
+
+<figure>
+   <img onerror="this.dataset.broken='true'" src="/dev/media/poster.jpg" width="640" height="360" style="width: auto; max-height: 360px;" alt="Big Buck Bunny">
+   <figcaption>
+        <p>Longer caption here. It's inside a paragraph.</p>
+    </figcaption>
+</figure>
+
+<figure>
+   <img onerror="this.dataset.broken='true'" src="/dev/media/poster.jpg" width="640" height="360" style="width: auto; max-height: 360px;" alt="Big Buck Bunny">
+   <figcaption>
+        <p>Even longer caption here.</p>
+        <p>There's even a second paragraph.</p>
+    </figcaption>
+</figure>
+
+
+<hr>
+
+<p>Linked image:</p>
+<p>The focus shadow doesn't work so well here. start.css uses <code>max-width: 100%;</code> for images and testing.css forces block display and center alignment. When focussed the shadow on the link displays some sort of text or whitespace artefacts.</p>
+<p>Press this <button>button</button> then tab twice to see this effect. <a href="#test-link">normal link for comparison</a>.</p>
+<p>
+    <a href="#">
+        <img onerror="this.dataset.broken='true'" src="/dev/media/poster.jpg" width="640" height="360" alt="Big Buck Bunny" style="width: auto; max-height: 359px;">
+    </a>
+</p>
+
+
+
+<p>
+    Image in a link:
+</p>
+<p>
+    <a href="#">
+        <img onerror="this.dataset.broken='true'" src="/dev/media/poster.jpg"  alt="Big Buck Bunny" height="200" width="355" style="width: auto; max-height: 192px;">
+    </a>
+</p>
+
+<p>
+    Broken image in a link:
+</p>
+<p>
+    <a href="#">
+        <img onerror="this.dataset.broken='true';console.log('Ignore 404 warning - broken image is deliberate')" src="/dev/media/poster.jpgX"  alt="Big Buck Bunny - testing alt-text" height="200" width="355" style="width: auto; max-height: 120px;">
+    </a>
+</p>
+
+<p>It would be useful / useable for <code>img</code> elements to have a background colour in case src fails to load, it's more apparent there should be something there. However, if the image has any transparent areas, we'd want the correct background to show through:</p>
+
+<p>
+    Image in a link - image has red background to illustrate transparent area:
+</p>
+<p style="background-color: red;">
+    <a href="#">
+        <img onerror="this.dataset.broken='true'" src="/dev/media/poster.png"  alt="Big Buck Bunny - testing alt-text" height="200" width="355" style="width: auto; max-height: 198px;">
+    </a>
+</p>
+
+<p>
+    Image in a link - image has natural (white) background to illustrate what it should look like:
+</p>
+<p>
+    <a href="#">
+        <img onerror="this.dataset.broken='true'" src="/dev/media/poster.png"  alt="Big Buck Bunny - testing alt-text" height="200" width="355" style="width: auto; max-height: 199px;">
+    </a>
+</p>
+
+<p>I've opted for an onerror style change for now as a compromise as illustrated above. However, it may not be practical to add this to every image.</p>
+
+
+<hr>
+
+
+<p>
+External linked image:
+</p>
+<p>
+    <a href="https://en.wikipedia.org/wiki/Big_Buck_Bunny" rel="external">
+        <img onerror="this.dataset.broken='true'" src="/dev/media/poster.jpg" width="640" height="360" alt="Big Buck Bunny" style="width: auto; max-height: 347px;">
+    </a>
+</p>
+
+<p>Rounded linked image:</p>
+<p>
+    <a href="#">
+        <img onerror="this.dataset.broken='true'" src="/dev/media/poster.jpg" width="640" height="360" alt="Big Buck Bunny" style="width: auto; max-height: 347px; border-radius: 400px;">
+    </a>
+</p>
+
+
+<figure>
+    <!-- first try HTML5 playback: if serving as XML, expand `controls` to `controls="controls"` and autoplay likewise       -->
+    <!-- warning: playback does not work on iPad/iPhone if you include the poster attribute! fixed in iOS4                   -->
+    <video width="640" height="360" controls>
+        <!-- MP4 must be first for iPad! -->
+        <source src="/dev/media/big_buck_bunny.mp4" type="video/mp4"><!-- Safari / iOS, IE9 -->
+        <source src="/dev/media/big_buck_bunny.webm" type="video/webm"><!-- Chrome10+, Ffx4+, Opera10.6+ -->
+        <source src="/dev/media/big_buck_bunny.ogv" type="video/ogg"><!-- Firefox3.6+ / Opera 10.5+ -->
+        <!-- fallback to Flash: -->
+        <object width="640" height="360" type="application/x-shockwave-flash" data="media/player.swf">
+            <!-- Firefox uses the `data` attribute above, IE/Safari uses the param below -->
+            <param name="movie" value="player.swf">
+            <param name="flashvars" value="autostart=true&amp;controlbar=over&amp;image=poster.jpg&amp;file=media/big_buck_bunny.mp4">
+            <!-- fallback image -->
+            <img onerror="this.dataset.broken='true'" src="/dev/media/poster.jpg" width="640" height="360" alt="Big Buck Bunny"
+                 title="No video playback capabilities, please download the video below">
+        </object>
+    </video>
+    <!-- you *must* offer a download link as they may be able to play the file locally. customise this bit all you want -->
+    <figcaption">
+        <strong>Download Video:</strong> Closed Format: <a href="media/big_buck_bunny.mp4">"MP4"</a> Open Format: <a href="media/big_buck_bunny.ogv">"OGG"</a> / <a href="media/big_buck_bunny.webm">"WebM"</a>
+    </figcaption>
+</figure>
+
+
+<figure>
+    <table id="Books" border="1">
+        <caption id="Cap1">Books I May or May Not Have Read</caption>
+        <thead>
+            <tr>
+                <th>Author</th>
+                <th>Title</th>
+                <th>Year</th>
+                <th>ISBN-13</th>
+                <th>ISBN-10</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Miguel De Cervantes</td>
+                <td>The Ingenious Gentleman Don Quixote of La Mancha</td>
+                <td>1605</td>
+                <td>9783125798502</td>
+                <td>3125798507</td>
+                </tr>
+            <tr>
+            <td>Mary Shelley</td>
+                <td>Frankenstein; or, The Modern Prometheus</td>
+                <td>1818</td>
+                <td>9781530278442</td>
+                <td>1530278449</td>
+            </tr>
+            <tr>
+                <td>Herman Melville</td>
+                <td>Moby-Dick; or, The Whale</td>
+                <td>1851</td>
+                <td>9781530697908</td>
+                <td>1530697905</td>
+            </tr>
+            <tr>
+                <td>Emma Dorothy Eliza Nevitte Southworth</td>
+                <td>The Hidden Hand</td>
+                <td>1888</td>
+                <td>9780813512969</td>
+                <td>0813512964</td>
+            </tr>
+            <tr>
+                <td>F. Scott Fitzgerald</td>
+                <td>The Great Gatsby</td>
+                <td>1925</td>
+                <td>9780743273565</td>
+                <td>0743273567</td>
+            </tr>
+            <tr>
+                <td>George Orwell</td>
+                <td>Nineteen Eighty-Four</td>
+                <td>1948</td>
+                <td>9780451524935</td>
+                <td>0451524934</td>
+            </tr>
+        </tbody>
+    </table>
+</figure>
+
+<table id="browser_info" border="1">
+    <caption>Browser info</caption>
+    <thead>
+        <tr><th>Name</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+        <tr><td colspan="2">No Javascript - unable to detect anything!</td></tr>
+    </tbody>
+</table>
+
+<p>
+    Some more text.
+</p>
+
+
+<hr>
+
+
+<h2 id="interactive-elements">Interactive elements</h2>
+
+<h3>Details / Summary</h3>
+
+<details>
+    <summary>Summary/details<br>Test line wrapping</summary>
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+</details>
+
+<p>The following example includes a heading inside the <code>summary</code> and multiple content elements.</p>
+
+<details>
+    <summary><h3>Summary/details<br>Test line wrapping</h3></summary>
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+    <ul>
+        <li>Pellentesque habitant morbi</li>
+        <li>Senectus et netus et malesuada</li>
+        <li>Fames ac turpis egestas</li>
+    </ul>
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+</details>
+
+
+<hr>
+
+
+<h2 id="icons">Icons</h2>
+
+<p>You can use whatever icons you like, and whatever icon strategy, but StartCSS support it's own stratgey to ensure icons are accessible in the usual "Fall Back" way.</p>
+<p>These icons are <a href="https://feathericons.com/">Feather Icons</a> with addition of "fax" and "X".</p>
+
+<p>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-building"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-calendar"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevron-down"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevron-up"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevron-left"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevron-right"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevrons-down"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevrons-up"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevrons-left"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevrons-right"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-cross"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-edit"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-email"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-external-link"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-facebook"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-fax"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-file"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-info"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-linkedin"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-map-pin"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-menu"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-person"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-phone"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-rss"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-search"></use></svg>
+    <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-x"></use></svg>
+</p>
+
+<p> and on a darker background:</p>
+
+<div style="--background-color: var(--base-ui-color-darker); background-color: var(--background-color); padding: var(--sz-m)">
+    <p>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-building"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-calendar"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevron-down"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevron-up"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevron-left"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevron-right"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevrons-down"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevrons-up"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevrons-left"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-chevrons-right"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-cross"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-edit"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-email"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-external-link"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-facebook"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-fax"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-file"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-info"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-linkedin"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-map-pin"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-menu"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-person"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-phone"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-rss"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-search"></use></svg>
+        <svg focusable="false" aria-hidden="true" width="1.25em" height="1.25em"><use xlink:href="#icon-x"></use></svg>
+    </p>
+
+</div>
+
+<footer id="bottom">
+    <hr>
+    <p>Contact information for this page unsing <code>address</code> element:</p>
+    <address>
+        someone@somewhere.com
+    </address>
+    <hr>
+</footer>

@@ -1,0 +1,28 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: object
+    v3.0.0
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+#{$s__namespace}object {
+    vertical-align: $s__media-element-vertical-align;
+
+
+    /*
+        1. Make sure focus is still visible in Forced Colour modes.
+           (https://www.sarasoueidan.com/blog/focus-indicators/)
+    */
+    &:focus,
+    &:focus-visible {
+        outline: 2px solid transparent; /* [1] */
+    }
+
+    @if $s__use-focus-shadow {
+        &:focus,
+        &:focus-visible {
+            box-shadow: $s__outline-shadow;
+        }
+    }
+}

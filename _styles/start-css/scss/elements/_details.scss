@@ -1,0 +1,60 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: details
+    v3.0.0
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+#{$s__namespace}details {
+    @include s__bordered($s__details-padding, $s__details-border-width);
+    @include s__margins($s__base-rem-space-unit, $s__margin-type);
+
+    // Fix Chrome bug as described on https://caniuse.com/#feat=details:
+    //> * {
+    //    box-sizing: border-box;
+    //}
+}
+
+/*
+    Animate to auto height if supported and user doesn't prefer reduced motion:
+*/
+@media screen and (prefers-reduced-motion: no-preference) {
+    @supports (interpolate-size: allow-keywords) {
+        /*
+            If you want to style ::details-content with a background you'll likely need padding,
+            but that isn't clipped by height: 0 so we need to transition that with the rest. To
+            save having to redeclare this whole block padding transition is catered for - you just
+            need to update the --content-padding var.
+        */
+        ::details-content {
+            --content-padding: 0;
+            --duration: 0.5s;
+            --duration-2: 0.75s;
+
+            transition:
+                height var(--duration) ease,
+                opacity var(--duration) ease,
+                content-visibility var(--duration) ease allow-discrete,
+                margin-top var(--duration-2) ease,
+                padding var(--duration-2) ease;
+
+            height: 0;
+            margin-top: 0;
+            padding: 0;
+            opacity: 0;
+            overflow: clip;
+        }
+
+        :root {
+            interpolate-size: allow-keywords;
+        }
+
+        [open]::details-content {
+            height: auto;
+            margin-top: var(--base-rem-space-unit);
+            padding: var(--content-padding);
+            opacity: 1;
+        }
+    }
+}

@@ -1,0 +1,123 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    NAVBAR
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+#{$es__page_banner__navbar} {
+    --name: navbar;
+
+    position: relative;
+    z-index: 10;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: end;
+
+    max-width: 100%;
+
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+
+}
+
+
+#{$es__page_banner__navbar} > * {
+    flex: 999 1 auto;
+}
+
+#{$es__page_banner__navbar}   p[role="list"] {
+    flex-grow: 999;
+}
+
+@if $e__nav-bar__link--spacing == false {
+    #{$es__page_banner__navbar}   p[role="list"],
+    #{$es__page_banner__navbar}   p[role="list"]   span[role="listitem"] {
+        margin-left: 0;
+    }
+}
+
+
+#{$es__page_banner__navbar}   a[href],
+#{$es__page_banner__navbar}   summary {
+    display: inline-block;
+
+    margin: 0;
+
+    padding-top: 0;
+    padding-right: $e__nav-bar--spacing * 2;
+    padding-bottom: 0;
+    padding-left: $e__nav-bar--spacing * 2;
+
+    border: 0;
+    border-radius: $e__nav-bar__link--border-radius;
+
+    box-shadow: none;
+
+    line-height: $e__nav-bar--height;
+
+    text-decoration: none;
+}
+
+
+#{$es__page_banner__navbar}    a[href] {
+    //color: $e__nav-bar__link--color;
+    //background-color: $e__nav-bar__link--background-color;
+
+    --background-color: var(--navbar-color, var(--base-ui-color));
+    @include s__theme(var(--navbar-color--text, var(--base-ui-color--text)));
+}
+
+#{$es__page_banner__navbar}    a[href][aria-current] {
+    //color: $e__nav-bar__link--color--alt;
+    //background-color: $e__nav-bar__link--background-color--alt2;
+    --background-color: var(--navbar-color-darker, var(--base-ui-color-darker));
+    @include s__theme(var(--navbar-color-darker--text, var(--base-ui-color-darker--text)));
+}
+
+#{$es__page_banner__navbar}    a[href]:hover,
+#{$es__page_banner__navbar}    a[href]:active {
+    border: 0;
+
+    //color: $e__nav-bar__link--color--alt;
+    //background-color: $e__nav-bar__link--background-color--alt;
+    --background-color: var(--navbar-color-lighter, var(--base-ui-color-lighter));
+    @include s__theme(var(--navbar-color-lighter--text, var(--base-ui-color-lighter--text)));
+}
+
+#{$es__page_banner__navbar}   p[role="list"] a[href]:focus {
+    box-shadow: 0 0 0 $s__sz-xs rgba(0,0,0,.3);
+}
+
+
+
+
+/*
+p[role="list"] a[href][aria-current],
+#{$es__page_banner__navbar} > details > summary {
+    color: $e__nav-bar__link--color--alt;
+    background-color: $e__nav-bar__link--background-color--alt2;
+}
+
+
+p[role="list"] a[href]:hover,
+p[role="list"] a[href]:active,
+#{$es__page_banner__navbar} > details > summary:hover,
+#{$es__page_banner__navbar} > details > summary:active {
+    border: 0;
+
+    color: $e__nav-bar__link--color--alt;
+    background-color: $e__nav-bar__link--background-color--alt;
+}
+
+
+p[role="list"] a[href]:focus,
+#{$es__page_banner__navbar} > details > summary:focus {
+    box-shadow: 0 0 0 $s__sz-xs rgba(0,0,0,.3);
+}
+
+
+*/

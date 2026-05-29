@@ -1,0 +1,28 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    CONTENT LISTING - GRID
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+
+@mixin content-listing--grid($options: ()) {
+    @supports (display: grid) {
+        #{map-get($options, selector)} {
+            display: grid;
+
+            padding: #{map-get($options, gutter)};
+
+            grid-template-columns: repeat(auto-fit, minmax(#{map-get($options, basis)}, 1fr));
+            grid-gap: #{map-get($options, gutter)};
+        }
+
+        #{map-get($options, selector)} > * {
+            margin: 0;
+
+            & > * {
+                padding: 0;
+            }
+        }
+    }
+}

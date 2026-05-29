@@ -1,0 +1,262 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: figure
+    v3.0.0
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+
+#{$s__namespace}figure {
+    margin-left: $s__base-rem-space-unit;
+    margin-right: $s__base-rem-space-unit;
+    @include s__margins($s__base-rem-space-unit, $s__margin-type);
+
+    /*
+        1. Make sure focus is still visible in Forced Colour modes.
+            (https://www.sarasoueidan.com/blog/focus-indicators/)
+    */
+    &:focus-within {
+        outline: 2px solid transparent; /* [1] */
+    }
+
+    @if $s__use-focus-shadow {
+        &:focus-within {
+            box-shadow: $s__outline-shadow;
+        }
+    }
+}
+
+@if $s__figure-scroll {
+    @media (forced-colors: none) {
+        figure:has(> table) {
+
+            @supports not (scroll-timeline: none) {
+                & {
+                    background-image:
+                    linear-gradient(-90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 60%, rgba(255,255,255,1) 100%),
+                    linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 60%, rgba(255,255,255,1) 100%),
+                    linear-gradient(to right, rgba(0, 0, 20, 0.5), rgba(255, 255, 255, 0)),
+                    linear-gradient(to left, rgba(0, 0, 20, 0.5), rgba(255, 255, 255, 0));
+                    background-position: left center, right center, left center, right center;
+                    background-repeat: no-repeat;
+                    background-color: white;
+                    background-size: 2em 100%, 2em 100%, 1em 100%, 1em 100%;
+                    background-attachment: local, local, scroll, scroll;
+                }
+            }
+
+            @supports (scroll-timeline: none) {
+                // https://www.purestructure.com/blog/scroll-shadows-animation-timeline/
+                & {
+                    border-width: var(--table-border-width, var(--base-border-width));
+                    border-style: var(--table-border-style, var(--base-border-style));
+                    border-color: var(---th-border-color, var(--table-base-color, var(--base-ui-color)));
+                    max-width: 100%;
+                                --shadow-color: rgb(0 0 0 / 0.4);
+                    --shadow-size: #{$s__sz-s};
+                    --shadow-spread: calc(var(--shadow-size) * -0.5);
+                                overflow-x: auto;
+                    animation: scroll-shadow-inset linear;
+                    scroll-timeline: --scroll-shadow-timeline inline;
+                    animation-timeline: --scroll-shadow-timeline;
+                }
+
+                & > table {
+                    border-width: 0;
+                    mix-blend-mode: multiply;
+                                & td:first-child,
+                    & th:first-child {
+                        border-left-width: 0;
+                    }
+                                & td:last-child,
+                    & th:last-child {
+                        border-right-width: 0;
+                    }
+                                & tr:last-child td {
+                        border-bottom-width: 0;
+                    }
+                }
+
+                @keyframes scroll-shadow-inset {
+                    from {
+                        box-shadow:
+                        inset calc(var(--shadow-size) * -1) 0 var(--shadow-size) var(--shadow-spread) var(--shadow-color),
+                        inset 0 0 var(--shadow-size) var(--shadow-spread) var(--shadow-color);
+                        margin-bottom: calc(#{$s__base-rem-space-unit} + 0.7rem);
+                    }
+                    6%, 94% {
+                        box-shadow:
+                        inset calc(var(--shadow-size) * -1) 0 var(--shadow-size) var(--shadow-spread) var(--shadow-color),
+                        inset var(--shadow-size) 0 var(--shadow-size) var(--shadow-spread) var(--shadow-color);
+                    }
+                    to {
+                        box-shadow:
+                        inset 0 0 var(--shadow-size) var(--shadow-spread) var(--shadow-color),
+                        inset var(--shadow-size) 0 var(--shadow-size) var(--shadow-spread) var(--shadow-color);
+                        margin-bottom: calc(#{$s__base-rem-space-unit} + 0.7rem);
+                    }
+                }
+            }
+
+            & > table {
+                mix-blend-mode: multiply;
+            }
+        }
+    }
+}
+
+//    figure:has(> table) {
+//        & {
+//            border-width: var(--table-border-width, var(--base-border-width));
+//            border-style: var(--table-border-style, var(--base-border-style));
+//            border-color: var(---th-border-color, var(--table-base-color, var(--base-ui-color)));
+//            max-width: 100%;
+//
+//            --shadow-color: rgb(0 0 0 / 0.4);
+//            --shadow-size: #{$s__sz-s};
+//            --shadow-spread: calc(var(--shadow-size) * -0.5);
+//
+//            overflow-x: auto;
+//            animation: scroll-shadow-inset linear;
+//            scroll-timeline: --scroll-shadow-timeline inline;
+//            animation-timeline: --scroll-shadow-timeline;
+//        }
+//
+//        & > table {
+//            border-width: 0;
+//            mix-blend-mode: multiply;
+//
+//            & td:first-child,
+//            & th:first-child {
+//                border-left-width: 0;
+//            }
+//
+//            & td:last-child,
+//            & th:last-child {
+//                border-right-width: 0;
+//            }
+//
+//            & tr:last-child td {
+//                border-bottom-width: 0;
+//            }
+//        }
+//    }
+//
+//    @keyframes scroll-shadow-inset {
+//        from {
+//            box-shadow:
+//            inset calc(var(--shadow-size) * -1) 0 var(--shadow-size) var(--shadow-spread) var(--shadow-color),
+//            inset 0 0 var(--shadow-size) var(--shadow-spread) var(--shadow-color);
+//            margin-bottom: calc(#{$s__base-rem-space-unit} + 0.7rem);
+//        }
+//
+//        6%, 94% {
+//            box-shadow:
+//            inset calc(var(--shadow-size) * -1) 0 var(--shadow-size) var(--shadow-spread) var(--shadow-color),
+//            inset var(--shadow-size) 0 var(--shadow-size) var(--shadow-spread) var(--shadow-color);
+//        }
+//
+//        to {
+//            box-shadow:
+//            inset 0 0 var(--shadow-size) var(--shadow-spread) var(--shadow-color),
+//            inset var(--shadow-size) 0 var(--shadow-size) var(--shadow-spread) var(--shadow-color);
+//            margin-bottom: calc(#{$s__base-rem-space-unit} + 0.7rem);
+//        }
+//    }
+//}
+
+
+//This was my attempt. It works and would be useful where pseudo elements are required, so keeping
+//this here for future reference.
+//@if $s__figure-scroll {
+//    figure:has(> table) {
+//        & {
+//            border-width: var(--table-border-width, var(--base-border-width));
+//            border-style: var(--table-border-style, var(--base-border-style));
+//            border-color: var(---th-border-color, var(--table-base-color, var(--base-ui-color)));
+//            max-width: 100%;
+//            overflow-x: auto;
+//            overflow-y: hidden;
+//            position: relative;
+//            container-type: inline-size;
+//            --h: 100cqh;
+//            --w: #{$s__base-rem-space-unit};
+//        }
+//
+//        &::before,
+//        &::after {
+//            content: "";
+//            display: block;
+//            position: sticky;
+//            width: var(--w);
+//            height: var(--h);
+//            top: 0;
+//
+//            animation-duration: 1ms; /* Firefox requires this to apply the animation */
+//            animation-direction: alternate;
+//            animation-timeline: scroll(inline nearest);
+//            opacity: 0;
+//        }
+//
+//        &::before {
+//            animation-name: leftshadow;
+//            background-image: linear-gradient(to right, rgba(0, 0, 20, 0.5), rgba(255, 255, 255, 0));
+//            left: 0;
+//        }
+//
+//
+//        &::after {
+//            animation-name: rightshadow;
+//            background-image: linear-gradient(to left, rgba(0, 0, 20, 0.5), rgba(255, 255, 255, 0));
+//            // Extra -1px to compensate for rounding-related rendering issues
+//            left: calc(100cqw - (var(--w) - 1px));
+//        }
+//
+//        & > table {
+//            margin-top: calc(var(--h) * -1) !important;
+//            margin-bottom: calc(var(--h) * -1) !important;
+//            border-width: 0;
+//
+//
+//            & td:first-child,
+//            & th:first-child {
+//                border-left-width: 0;
+//            }
+//
+//            & td:last-child,
+//            & th:last-child {
+//                border-right-width: 0;
+//            }
+//
+//            & tr:last-child td {
+//                border-bottom-width: 0;
+//            }
+//        }
+//    }
+//
+//    @keyframes leftshadow  {
+//        0% {
+//            opacity: 0;
+//        }
+//        4% {
+//            opacity: 1;
+//        }
+//        100% {
+//            opacity: 1;
+//        }
+//    }
+//
+//
+//    @keyframes rightshadow  {
+//        0% {
+//            opacity: 1;
+//        }
+//        96% {
+//            opacity: 1
+//        }
+//        100% {
+//            opacity: 0;
+//        }
+//    }
+//}

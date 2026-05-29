@@ -1,0 +1,125 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    CONTENT
+    ============================================================================================
+
+    ```
+    <main> <!-- OUTER WRAPPER -->
+        <?> <!-- INNER WRAPPER [A] e.g. article or div -->
+            <header>
+                <h1>...</h1>
+                ?...?
+            </header>
+        </?>
+    </main>
+    ```
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*
+    If there's a figure inside the article header it's the Hero, but we need to appear visually
+    BEFORE the heading like a normal Hero.
+*/
+
+#{$es__page_main__header} {
+    display: flex;
+    flex-direction: column;
+}
+
+
+#{$es__page_main__header} > figure {
+    order: -1;
+}
+
+#{$es__page_main__header} > h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+
+
+/*
+    Content wrapper [A] could be anything (so far `article` or `div`): `#{$es__page_main} > * >.
+    Inside the wrapper there should be `header` (see _1-header.scss).
+    After the header} we want to give elements some side padding: `~ *`.
+*/
+#{$es__page_main__header} > h1,
+#{$es__page_main__header} ~ * {
+    padding-left: $s__sz-m;
+    padding-right: $s__sz-m;
+}
+
+
+/*
+    If the wrapper [A] is an article, the purpose is longform text [PAGE TYPE Article], so we want
+    that to be easier to read, so add `max-width` and center it.
+
+    1. Some items from StartCSS are `display: table` for other fixes. Because of that they're
+       intrinsically sized so may not appear full width, and therefore look odd, so expand them.
+
+*/
+#{$es__page_main__header} > h1,
+#{$es__page_main__header--article} ~ * {
+    width: 100%; /* 1 */
+    max-width: $e__content-measure;
+
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/*
+    If the first element after the article header is a nav, it's the ToC.
+*/
+
+#{$es__page_main__header--article} + nav {
+    font-size: smaller;
+    margin: $s__sz-m;
+    padding: $s__sz-m;
+    --background-color: var(--main-color, #{$e__toc-background-color});
+    @include s__theme(var(--main-color--text, #{$s__base-text-color}));
+    float: right;
+    min-width: $e__content-sidebar-width;
+    width: calc((#{$e__content-measure} - 100%) * 9999);
+    max-width: calc(100% - #{$s__sz-m * 2});
+}
+
+/*
+    We're using `div` (human semantic "divider") to break out of the `max-width`.
+    Use for things like full width images, videos or figures.
+*/
+#{$es__page_main__header} ~ div {
+    max-width: none;
+
+    padding: 0;
+}
+
+#{$es__page_main__header} ~ div:not(:last-child) {
+    margin-bottom: $s__sz-m;
+}
+
+/*
+    Figures should wither be direct children of the content container, or placed within a `div` to
+    allow them to be full-width.
+*/
+#{$es__page_main__header} ~ figure,
+#{$es__page_main__header} ~ div > figure {
+    background: $__e__content__figure-background;
+    clear: both;
+
+    @include s__bordered($s__sz-m);
+}
+
+/*
+    If the wrapper [A] is a `div` [PAGE TYPE Listing] we're saying we want `ul`s to be a
+    gallery-style grid list of card-like object.
+    Use for things like portfolio images or article cards.
+*/
+// See listing file
+
+
+/*
+    Inline elements
+*/
+#{$es__page_main} img {
+    width: 100%;
+}

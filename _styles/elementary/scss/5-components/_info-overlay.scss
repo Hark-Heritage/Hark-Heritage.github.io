@@ -1,0 +1,125 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS - INFO OVERLAY
+    =========================
+
+|-------------------------------------------------------------------------------------------------*/
+
+@use 'sass:math';
+
+@mixin component__info-overlay($options: ()) {
+
+    #{map-get($options, selector)} {
+        --name: image-overlay;
+
+        position: absolute;
+        #{map-get($options, x-position)}: #{math.div(map-get($options, spacing-unit), 4)};
+        #{map-get($options, y-position)}: #{math.div(map-get($options, spacing-unit), 4)};
+
+        width: #{map-get($options, spacing-unit)};
+        height: #{map-get($options, spacing-unit)};
+
+        margin: 0;
+
+        padding: 0;
+
+        border: 0;
+        border-radius: #{math.div(map-get($options, spacing-unit), 2)};
+
+        //color: #fff;
+        //background: rgba(0,0,0,0.7);
+        --background-color: rgba(0,0,0,0.7);
+        @include s__theme(#fff);
+
+        a[href] {
+            color: #fff;
+        }
+
+        &[open] {
+            border-radius: 0;
+            #{map-get($options, y-position)}: 0;
+            #{map-get($options, x-position)}: 0;
+            width: auto;
+            height: auto;
+
+            & > summary {
+                #{map-get($options, y-position)}: #{math.div(map-get($options, spacing-unit), 4)};
+                #{map-get($options, x-position)}: #{math.div(map-get($options, spacing-unit), 4)};
+
+                & > svg:first-of-type {
+                    display: none;
+                }
+
+                & > svg:last-of-type {
+                    display: inline;
+                }
+            }
+        }
+
+        &::after {
+            display: none;
+        }
+    }
+
+    /*
+        1. `align-items: center;` is the obvious choice for vertical-center aligning the icons, but
+           for some reason iOS doesn't get it right, so I'm using padding instead for now since the
+           icon or container sizes shouldn't change.
+    */
+    #{map-get($options, selector)} > summary {
+        position: absolute;
+        z-index: 1;
+
+        display: flex;
+        justify-content: center;
+        align-items: center; /* [1] */
+
+        width: #{map-get($options, spacing-unit)};
+
+        height: #{map-get($options, spacing-unit)};
+
+        margin: 0;
+
+        border-radius: #{math.div(map-get($options, spacing-unit), 2)};
+
+        //padding: 0; /* [1] */
+        //padding: 0.2rem; /* [1] */
+
+        //font-size: 1.23076923077em;
+
+        & > svg:first-of-type {
+            display: inline;
+        }
+
+        & > svg:last-of-type {
+            display: none;
+        }
+
+        &::before {
+            display: none;
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+            background: rgba(255,255,255,0.3);
+        }
+
+        list-style: none;
+        &::-webkit-details-marker {
+            display: none;
+        }
+    }
+
+    #{map-get($options, selector)} > summary + * {
+        position: relative;
+        display: block;
+        @if map-get($options, x-position) == left {
+            left: #{map-get($options, spacing-unit)};
+        }
+
+        max-width: calc(100% - #{map-get($options, spacing-unit)});
+
+        padding: #{map-get($options, spacing-unit) * 1.5} #{map-get($options, spacing-unit) * 1.5} #{map-get($options, spacing-unit)} #{map-get($options, spacing-unit)};
+    }
+}

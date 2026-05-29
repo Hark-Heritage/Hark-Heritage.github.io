@@ -1,0 +1,25 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    MAIN HEADER
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*
+    Page header
+    (note may consider qualifying this with `:first-child` but I don't think it's needed)
+*/
+#{$es__page_main} > * > header {
+    margin: 0;
+
+    padding: $s__sz-m;
+}
+
+/*
+    If there's no main header - give the h1 some room:
+    ??Not sure - currently require header?
+*
+main > * > h1 {
+    margin-top: 2.4rem;
+}
+*/

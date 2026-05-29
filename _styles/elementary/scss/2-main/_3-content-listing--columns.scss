@@ -1,0 +1,36 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    CONTENT LISTING - COLUMNS
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+@use 'sass:math';
+
+@mixin content-listing--columns($options: ()) {
+    @supports (columns: 1) {
+        #{map-get($options, selector)} {
+            display: block;
+
+            padding: #{math.div(map-get($options, gutter), 2)} #{map-get($options, gutter)};
+
+            columns: #{map-get($options, basis)} auto;
+            column-gap: #{map-get($options, gutter)};
+        }
+
+        /*
+            1. This fixes an issue where box-shadows break across columns.
+        */
+        #{map-get($options, selector)} > * {
+            margin: 0;
+
+            transform: translateZ(0); /* [1] */
+
+            break-inside: avoid;
+
+            & > * {
+                padding: #{math.div(map-get($options, gutter), 2)} 0;
+            }
+        }
+    }
+}

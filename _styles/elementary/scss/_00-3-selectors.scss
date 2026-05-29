@@ -1,0 +1,275 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    ELEMENTARY SELECTORS
+    ============================================================================================
+
+    Elementary relies solely on context and relative DOM position. This is why it should only be
+    for 'light' projects, where there isn't much variety and patterns can be closely adhered to.
+
+    With that in mind, if the conventions are learned, there is some flexibility in the system,
+    particularly in regards to the extract DOM elements that are used, so long as any changes to
+    the selectors below are carefully considered so as not to introduce conflicts.
+
+
+    Conventions
+    -----------
+
+    DIV
+        DIV's are semantically meaningless/neutral as far as AT is concerned, but since 'div' is
+        short for DIVIDER it makes logical sense to the HTML author that it is a division of content
+        and thus is appropriate for situations where content may need to be visually separated from
+        it's surroundings.
+
+    Specificity
+    -----------
+
+    Some of the selectors may look overly specific, but it's really important in such a fragile
+    system to be as specific as possible; to really say exactly what we mean.
+    For example, on a Listing page when writing the selector we could could say:
+    "Any `ul` that is a direct child of the inner wrapper should be a Gallery"
+    This would be `div > ul`. However, we use `div > header ~ ul` because what we really mean to say
+    is "Any `ul` AFTER the `header`", because if there was a list BEFORE the `header` for some
+    reason, it will not need to be a Gallery.
+
+|-------------------------------------------------------------------------------------------------*/
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    STYLE NOTICE
+    --------------------------------------------------------------------------------------------
+
+    This container shows a message if CSS is unavailable. It is normally the first element on the
+    page after the SVG Icons.
+
+    ```
+    <body>
+        <svg ... />
+        <div>
+            [CSS message]
+        </div>
+        ...
+    </body>
+    ```
+|-------------------------------------------------------------------------------------------------*/
+
+//$es__css-only: "body > div:first-of-type" !default;
+//$es__css-only: "[data-css-only=\"true\"]" !default;
+
+$es_scope: "[data-elementary]" !default;
+
+/*-------------------------------------------------------------------------------------------------|
+
+    PAGE
+    --------------------------------------------------------------------------------------------
+
+    The page is broken into sections: BANNER, MAIN, SIDEBAR (optional) and FOOTER.
+
+    ```
+    <body>
+        ...
+        <header/>
+        <main/>
+        ?<aside/>?
+        <footer>
+        ...
+    </body>
+    ```
+
+    BANNER (HEADER)
+        A fairly typical page banner where you'd expect to find a logo, primary navigation,
+        search, and maybe Calls to Action.
+
+    MAIN
+        The main content of the page. This may be one of several types (more on that later);
+        those types are patterns in their own right and should be declared with their own
+        unique markup.
+
+    SIDEBAR (ASIDE)
+        Optional. It con be omitted on all or only some pages and the layout should
+        retain it's integrity. This means the DOM is quite fragile and sensitive to change so be
+        careful. More on that later.
+
+    FOOTER
+        This is a typical page footer and would contain the usual Copyright notice and key links
+        etc.
+
+|-------------------------------------------------------------------------------------------------*/
+
+$es__page_banner:             "#{$es_scope} body > header" !default;
+$es__page_banner__inner:      "#{$es_scope} body > header > fieldset" !default;
+$es__page_main:               "#{$es_scope} body > main" !default;
+$es__page_main_after_banner:  "#{$es_scope} body > header + main" !default;
+$es__page_sidebar:            "#{$es_scope} body > aside" !default;
+$es__page_sidebar_after_main: "#{$es_scope} body > main + aside" !default;
+$es__page_footer:             "#{$es_scope} body > footer" !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    BANNER - LOGO
+    --------------------------------------------------------------------------------------------
+
+    This is the pattern needed to match the logo <a> in the banner.
+
+    ```
+        <header>
+            <a/>
+            ...
+        </header>
+    ```
+|-------------------------------------------------------------------------------------------------*/
+
+$es__page_banner__logo: "#{$es__page_banner__inner}   nav   b" !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    BANNER - NAVBAR
+    --------------------------------------------------------------------------------------------
+
+    This is the pattern needed to match primary navigation. The links are expected to be in an
+    inline list.
+
+    ```
+    <header>
+        ...
+        <nav>
+            <p role="list">
+                <span role="listitem">
+                    <a/>
+                </span>
+                ...
+            </p>
+        </nav>
+        ...
+    </header>
+    ```
+|-------------------------------------------------------------------------------------------------*/
+
+$es__page_banner__navbar: "#{$es__page_banner__inner}   nav" !default;
+
+
+/*------------------------------------------------------------------------------------------------*/
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    MAIN
+    --------------------------------------------------------------------------------------------
+
+    The MAIN area is both a semantic landmark and a content wrapper.
+    The MAIN pattern expects there to be *another* wrapper immediately inside it. What this wrapper
+    is determines how the content inside that is handled. In other words the markup chosen for this
+    internal wrapper should be appropriate to the rest of the content.
+    This choice determines the PAGE TYPE.
+
+    ELEMENTARY attempts to provide common PAGE TYPES - PAGE TYPES can display any content, of
+    course, but the layout, focus and functionality of each TYPE is quite different.
+
+    PAGE TYPES
+
+    Article
+        This pattern should use `<article>` as the inner wrapper and should be used for pages where
+        longform text is the primary focus of the page. E.g. a Blog Post or Documentation Page.
+
+    Listing
+        This pattern should use a `<div>` as the inner wrapper (since no other semantic element is
+        more appropriate) and is primarily intended as a Gallery Page. This could be a grid of
+        cards or images, for example. It's possible to use this pattern for arbitrary markup, but
+        all `<ul>`s that are direct children of the inner `<div>` will be displayed as a gallery.
+
+    More?...
+
+|-------------------------------------------------------------------------------------------------*/
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    MAIN - HEADER
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+$es__page_main__header: "#{$es__page_main} > * > header" !default;
+
+$es__page_main__header--article: "#{$es__page_main} > article > header" !default;
+
+$es__page_main__header--listing: "#{$es__page_main} > div > header" !default;
+$es__page_main__header--listing__list: "#{$es__page_main__header--listing} ~ div[role=\"list\"]" !default;
+
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS
+    --------------------------------------------------------------------------------------------
+
+    Components are meant to be reusable in any context so extra care/steps have been taken with
+    the markup and selectors.
+
+|-------------------------------------------------------------------------------------------------*/
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS - CARD
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+$es__component__card: "#{$es_scope} article > div:only-child" !default;
+//$es__component__card: "article > div:nth-child(2)" !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS - CTA (only allowed in Cards, currently)
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+$es__component__cta: "#{$es__component__card} b > a[href]:only-child" !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS - HERO
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+$es__component__hero_1: "#{$es__page_banner__inner} > figure" !default;
+$es__component__hero_2: "#{$es__page_main__header} > figure" !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    ///COMPONENTS - ICON
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+///$es__component__icon: "i > svg:only-child" !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS - IMAGES
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+$es__component__images--border: "#{$es_scope} b > img:only-child" !default;
+$es__component__images--inset:  "#{$es_scope} b > i:only-child > img:only-child" !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS - INFO OVERLAY
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+$es__component__info-overlay: "#{$es_scope} header figcaption > details" !default;
+

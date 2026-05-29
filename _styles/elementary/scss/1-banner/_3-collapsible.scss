@@ -1,0 +1,165 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    COLLAPSIBLE
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+/* > nav details can appear in different contexts so we can't specify a complete path to them: */
+
+/* This is for the case where the nav is split to 'home' and 'site' and 'site' appears after the search form. */
+
+#{$es__page_banner__inner}   > nav details + nav {
+    flex: 0 0 auto;
+}
+
+#{$es__page_banner__inner}   > nav details[role="search"] form {
+    z-index: 10;
+}
+
+
+#{$es__page_banner__inner}   > nav details {
+    --name: collapsible;
+
+    flex: 0 0 auto;
+    padding: 0;
+    border: 0;
+    margin: 1.2rem;
+
+    display: flex;
+    align-items: end;
+}
+
+/* Only for start margin stuff */
+#{$es__page_banner__inner}   > nav details::after {
+    display: none;
+}
+
+
+#{$es__page_banner__inner}   > nav details > summary {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+
+    align-self: center;
+
+    height: $e__nav-bar--height;
+
+    list-style: none;
+    &::-webkit-details-marker {
+        display: none;
+    }
+}
+
+/*
+
+#{$es__page_banner__inner}   > nav details > summary {
+    color: $e__nav-bar__link--color;
+    background-color: transparent;
+}
+
+
+#{$es__page_banner__inner}   > nav details > summary:hover,
+#{$es__page_banner__inner}   > nav details > summary:active {
+    border: 0;
+
+    color: $e__nav-bar__link--color--alt;
+    background-color: $e__nav-bar__link--background-color--alt;
+}
+*/
+
+#{$es__page_banner__inner}   > nav details > summary:hover,
+#{$es__page_banner__inner}   > nav details > summary:active,
+#{$es__page_banner__inner}   > nav details > summary:focus {
+    @include e__ojbect_highlight();
+}
+
+/*
+This puts a hover arrow on the navicon. I'm not sure why I did this.
+#{$es__page_banner__inner}   > nav details > summary:hover::before,
+#{$es__page_banner__inner}   > nav details > summary:active::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 0;
+    left: -3px;
+    right: -3px;
+    top: -3px;
+    bottom: -3px;
+    background: rgba(0,0,0,0.2);
+    margin: 0;
+    transform: none;
+}
+*/
+//#{$es__page_banner__inner}   > nav details > summary:focus {
+//    box-shadow: 0 0 0 $s__sz-xs rgba(0,0,0,.3);
+//    outline: 0 none;
+//}
+
+
+#{$es__page_banner__inner}   > nav details[open] > summary {
+    margin: 0;
+}
+
+
+#{$es__page_banner__inner}   > nav details > summary::before {
+    display: none;
+}
+
+#{$es__page_banner__inner}   > nav details > summary::-webkit-> nav details-marker {
+    display: none;
+}
+
+#{$es__page_banner__inner}   > nav details       > summary > svg:first-child,
+#{$es__page_banner__inner}   > nav details[open] > summary > svg:first-child + svg {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+}
+
+#{$es__page_banner__inner}   > nav details > summary > svg:nth-child(2),
+#{$es__page_banner__inner}   > nav details[open] > summary > svg:first-child {
+    display: none;
+}
+
+
+
+#{$es__page_banner__inner}   > nav details > summary > svg + span {
+    clip: rect(0 0 0 0);
+    position: absolute;
+}
+
+#{$es__page_banner__inner}   > nav details > summary + * {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    padding: $s__sz-s;
+    margin-top: 2.2rem;
+
+
+    box-shadow: 0 4px 2px -1px rgba(0,0,0,0.5);
+
+    --background-color: var(--navbar-color-light, var(--base-ui-color-dark));
+    @include s__theme(var(--navbar-color-light--text, var(--base-ui-color-dark--text)));
+}
+
+#{$es__page_banner__inner}   > nav details[open] > summary + *::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 1px 2rem 1.5rem 2rem;
+    border-color: transparent transparent var(--navbar-color-light, var(--base-ui-color-dark)) transparent;
+    position: absolute;
+    right: 0.6em;
+    top: -0.9em;
+    //margin-top: 2.1em;
+    //margin-left: -0.5em;
+}
+
+#{$es__page_banner__inner}   > nav details > summary + * li {
+    padding: 0.5em;
+    margin: 0;
+}

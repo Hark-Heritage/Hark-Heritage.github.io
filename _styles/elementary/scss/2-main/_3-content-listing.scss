@@ -1,0 +1,91 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    CONTENT LISTING
+    ============================================================================================
+
+
+    What should be the default behaviour for this?
+
+    I mean, you'll want to choose the behaviour based on use case and number of items.
+
+    I've covered this before, and there are different 'classes' of behaviour to consider:
+
+    1. **Gallery Grid**. KNOW/UNKNOWN QUANTITY (doesn't matter) Use CSS Grid for this.
+       USES: (Where the are more than X items ?), the items need to be given equal weighting, they
+       should appear as a list (so uneven trailing items are left-aligned and do not expand to the
+       fill the bottom row). VARIABLE/UNDETERMINED quantity. E.g People/PRU People, SHEER badge
+       list.
+
+    2. **Selected Balanced Display**. KNOWN QUANTITY. Items should be considered a 'Display' and
+       should be balanced properly. The correct display pattern class should be applied depending on
+       the quantity and behaviour required. E.g footer logo lists (if number changes, change the
+       class - the number isn't ever unknown). KNOWN card lists, e.g. PRU (7, weighted bottom) /
+       Contact Cards (6, 1x6, 2x3, 3x2)
+
+    3. **Auto Balanced Display**. UNKNOWN QUANTITY. This is the trickiest, and will ALWAYS have the
+       potential to be broken. E.g. News cards - we KNOW it's 6 or less so we can account for that
+       using QQ's etc, but there's nothing to stop an unknowing admin changing this to something
+       like 20. If the max assumed quantity for the pattern is, say 16, then 20 is outside,
+       so the behaviour is undefined. This is SO unlikely though
+
+|-------------------------------------------------------------------------------------------------*/
+
+@use 'sass:math';
+
+#{$es__page_main__header--listing__list} {
+    display: flex;
+    flex-wrap: wrap;
+
+    padding: math.div($e__listing__gutter, 2);
+
+    list-style-type: none;
+}
+
+#{$es__page_main__header--listing__list} > * {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: $e__listing__item--basis;
+
+    min-width: $e__listing__item--min-width;
+
+    margin: math.div($e__listing__gutter, 2);
+
+    padding: 0;
+
+    border: 0;
+
+    --background-color: var(--listing-item-color, #{$s__base-background-color});
+    @include s__theme(var(--listing-item-color--text, #{$s__base-text-color}));
+
+    & > * {
+        padding: 0;
+    }
+}
+
+
+#{$es__page_main__header--listing__list} > * > * {
+    display: block;
+
+    height: 100%;
+
+    margin: 0;
+}
+
+
+@import '_3-content-listing--columns.scss';
+@if $e__listing__display-type == columns {
+    @include content-listing--columns((
+        selector: $es__page_main__header--listing__list,
+        basis:    $e__listing__item--basis,
+        gutter:   $e__listing__gutter
+    ))
+}
+
+@import '_3-content-listing--grid.scss';
+@if $e__listing__display-type == grid {
+    @include content-listing--grid((
+        selector: $es__page_main__header--listing__list,
+        basis:    $e__listing__item--basis,
+        gutter:   $e__listing__gutter
+    ))
+}

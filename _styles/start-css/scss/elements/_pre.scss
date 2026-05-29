@@ -1,0 +1,63 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: pre
+    v3.0.0
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*
+    Note: code is the most probable use for a `<pre>` tag. Other uses may occur (e.g. poem) but
+    these could be adjusted with a class. Could maybe make this default configurable but leave as it
+    is for now as it's likely that a poem would need a complete re-style (e.g. fonts etc.).
+
+    1. Keep scrollbar visible to maintain vertical rhythm.
+       Most browsers have a scrollbar height of 17px (calculated in settings section), however Edge
+       appears to have a scrollbar height of 12px, so we override it with a hack.
+    2. Correct the odd `em` font sizing in all browsers.
+    3. Correct the inheritance and scaling of font size in all browsers.
+    4. Ensure box edges are visible in High Contrast Mode.
+*/
+#{$s__namespace}pre {
+    overflow-x: scroll; /* 1 */
+    overflow-y: auto; /* 1 */
+
+    //margin-bottom: $s__pre-margin-bottom; /* 1 */
+    padding-bottom: $s__pre-padding-bottom; /* 1 */
+
+    //--background-color: var(--pre-background-color, var(--base-ui-color-lightest));
+    //background-color: var( --background-color);
+    //background-color: $s__pre-background-color; /*1 */
+
+
+    font-size: 1em; /* 2 */
+    font-family: $s__monospace-font-family, monospace; /* 3 */
+    font-family: $s__monospace-font-family, monospace; /* 3 */
+
+    --background-color: var(--pre-color, var(--base-ui-color-lightest));
+    @include s__theme(var(--pre-color--text, var(--base-ui-color-lightest--text)));
+
+    @include s__margins($s__base-rem-space-unit, $s__margin-type);
+
+    outline: 1px solid transparent; /* 4 */
+
+
+    @if $s__use-focus-shadow {
+        &:focus,
+        &:focus-visible {
+            outline: 2px solid transparent;
+            box-shadow: $s__outline-shadow;
+        }
+    }
+}
+
+    /*
+        1. Revert zeroed line-height (see) `code`.
+    */
+    #{$s__namespace}pre code {
+        display: inline-block;
+
+        padding: $s__pre-code-padding;
+
+        line-height: $s__base-rem-space-unit; /* 1 */
+    }

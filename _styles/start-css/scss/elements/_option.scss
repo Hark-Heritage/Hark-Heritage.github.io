@@ -1,0 +1,40 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: option
+    v3.0.0
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*
+    1. This v-centers the text in FF and Chrome. Edge doesn't apply this but looks ok regardless.
+*/
+#{$s__namespace}option {
+    display: flex; /* 1 */
+    align-items: center; /* 1 */
+
+    min-height: $s__base-rem-space-unit;
+
+    padding-right: $s__option-h-padding;
+    padding-left: $s__option-h-padding;
+
+    cursor: pointer;
+
+    //background-color: $s__option-background-color;
+    --background-color: var(--option--color, #fff);
+    @include s__theme(var(--option-color--text, var(--color)));
+
+    &:hover {
+        //background-color: $s__option-background-color--state-1;
+        //color: $s__option-text-color;
+        --background-color: var(--option-color-state-1, var(--base-ui-color-lighter));
+        @include s__theme(var(--option-color-state-1--text, var(--base-ui-color-lighter--text)));
+    }
+
+    &:checked {
+        //background-color: $s__option-background-color--state-1;
+        //color: $s__option-text-color;
+        --background-color: var(--option-color-state-2, var(--base-ui-color-darker));
+        @include s__theme(var(--option-color-state-2--text, var(--base-ui-color-darker--text)));
+    }
+}

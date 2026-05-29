@@ -1,0 +1,167 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    HARK HERITAGE-CSS SETTINGS
+
+|-------------------------------------------------------------------------------------------------*/
+
+$s__base-ui-color: #4C8A90;
+
+$e__listing__item--basis: 25rem;
+$e__listing__item--min-width: calc(33.333% - 2.4rem);
+
+//$s__html-background-color: darken($s__base-ui-color, 15%);
+//$s__main-background-color: lighten($s__base-ui-color, 61%);
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS
+
+|-------------------------------------------------------------------------------------------------*/
+
+//$s__use-layout: true;
+$s__use-last-child-margin-zero: true;
+$s__zero-header-hx-margin: true;
+$s__space_dl_groups: true;
+
+$s__text_zoom_scales_all: true;
+
+
+$s__border-width: 0.1rem;
+$s__border-radius: 0.3rem;
+
+$s__focus-outline-width: 0.2rem;
+$s__focus-outline-offset: 0.2rem;
+
+$s__anchor-border-bottom-width: 0.2rem;
+$s__anchor-focus-shadow-width: 0.3rem;
+
+$s__button-focus-shadow-width: 0.3rem;
+
+$s__input-focus-shadow-width: 0.3rem;
+
+$s__select-focus-shadow-width: 0.3rem;
+
+$s__textarea-focus-shadow-width: 0.3rem;
+
+$s__figure-scroll: true;
+@import './start-css/scss/_start.scss';
+//@supports (font-size: clamp(10px, 1vw, 12px)) {
+@supports (selector(:has(*))) and (color: color-mix(in lab, white, black 50%)) {
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    COOKIE NOTICE
+
+|-------------------------------------------------------------------------------------------------*/
+
+$s__cookie-notice__link--color:      lighten($s__base-ui-color, 60%);
+$s__cookie-notice__link--color--alt: lighten($s__base-ui-color, 50%);
+
+@import './cookie-notice/_cookie-notice.scss';
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    ELEMENTARY
+
+|-------------------------------------------------------------------------------------------------*/
+
+@import './elementary/scss/_0-elementary.scss';
+
+// Logo colour invert trick:
+// (White logos don't show up if styles don't load, so the trick is to keep them black in the SVG
+// source and then invert them with CSS.)
+/*#{$es__page_banner__logo} svg {
+    stroke: #fff;
+}*/
+
+
+// Generic inline-list - not sure if this could/should be in StartCSS or somewhere better:
+p[role="list"] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    margin-left: -$s__sz-xs;
+    margin-right: -$s__sz-xs;
+}
+
+p[role="list"]   span[role="listitem"] {
+    margin: $s__sz-xs;
+    flex: 0 0 auto;
+
+    display: inline-block;
+}
+
+/*
+p[role="list"]   span[role="listitem"] > *{
+    white-space: nowrap;
+}
+*/
+/* Hide NoCSS separator */
+/*
+p[role="list"] span[role="listitem"] > span:last-child {
+    display: none;
+}
+*/
+
+/* Visually hidden text fallback labels for svg icons */
+/* Not sure why I have this when StartCSS has data-hidden=visually ?? */
+/*svg[aria-hidden="true"] + span[aria-hidden="false"] {
+    clip: rect(0 0 0 0);
+    position: absolute;
+}*/
+/*
+// Allow for cells to span columns. Experimental. Not sure if it really fits with 'Elementary':
+#{$es__page_main__header--listing__list} > [data-size="medium"] {
+    min-width: calc(66.666% - #{$e__listing__gutter});
+}
+
+#{$es__page_main__header--listing__list} > [data-size="large"] {
+    min-width: calc(100% - #{$e__listing__gutter});
+}
+
+
+// Apply grid to the Listing - Grid page:
+@include content-listing--grid((
+    selector: "#page-layout-listing-grid#{$es__page_main__header--listing__list}",
+    basis:    $e__listing__item--basis,
+    gutter:   $e__listing__gutter
+));
+
+
+// Apply columns to the Listing - Columns page:
+@include content-listing--columns((
+    selector: "#page-layout-listing-columns#{$es__page_main__header--listing__list}",
+    basis:    $e__listing__item--basis,
+    gutter:   $e__listing__gutter
+));
+
+}
+*/
+/* ---------------------------------------------------------------------------------------------- */
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    PATTERNS
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*-@import "patterns/__all";*/
+
+/* ---------------------------------------------------------------------------------------------- */
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    SHAME
+
+|-------------------------------------------------------------------------------------------------*/
+
+@import "_shame";
+
+/* ---------------------------------------------------------------------------------------------- */
+}

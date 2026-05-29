@@ -1,0 +1,22 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS - IMAGES
+    ===================
+
+|-------------------------------------------------------------------------------------------------*/
+
+#{$es__component__images--border} {
+    --name: border-image;
+    border: $e__image-border;
+};
+
+#{$es__component__images--inset} {
+    --name: inset-image;
+
+    padding: $e__image-inset;
+
+    border: $e__image-border;
+
+    --background-color: var(--image-color, var(--base-ui-color));
+    @include s__theme(var(--image-color--text, var(--base-ui-color--text)));
+};

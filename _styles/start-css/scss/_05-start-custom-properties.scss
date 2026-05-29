@@ -1,0 +1,49 @@
+@property --background-color {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: transparent;
+}
+
+:root {
+
+    --base-rem-space-unit: #{$s__base-rem-space-unit};
+
+    --base-ui-color: #{$s__base-ui-color};
+
+    --base-ui-color-lightest: color-mix(in lab, var(--base-ui-color), white 80%);
+    --base-ui-color-lighter:  color-mix(in lab, var(--base-ui-color), white 60%);
+    --base-ui-color-light:    color-mix(in lab, var(--base-ui-color), white 40%);
+    --base-ui-color-dark:     color-mix(in lab, var(--base-ui-color), black 20%);
+    --base-ui-color-darker:   color-mix(in lab, var(--base-ui-color), black 40%);
+    --base-ui-color-darkest:  color-mix(in lab, var(--base-ui-color), black 60%);
+
+    --background-color: #{$s__base-background-color};
+    --color: #000;
+    --color--inverse: #fff;
+    @supports (color: oklch(from red l c h)) {
+        --l-threshold: 0.7;
+        --l: clamp(0,(var(--l-threshold) - l) * infinity, 1);
+        //--color: oklch(from var(--background-color) var(--l) 0 h / 0.9);
+    }
+
+    /* This is the fallback text color - SOMETHING needs to switch this based on ui base color contrast: */
+    /*--text-ui-color: var(--color--inverse);
+    --text-ui-color: var(--color);*/
+    --base-ui-color--text: var(#{s__get_contrast_color($s__base-ui-color, --color--inverse, --color)});
+
+
+    --base-border-width: 0.1rem;
+    --base-border-style: solid;
+    --base-border-color: var(--base-ui-color);
+    --base-border-radius: 0.3rem;
+
+    --sz-xxs : calc(var(--base-rem-space-unit) / 8); // 3px
+    --sz-xs  : calc(var(--base-rem-space-unit) / 4); // 6px
+    --sz-s   : calc(var(--base-rem-space-unit) / 2); // 12px
+    --sz-m   : var(--base-rem-space-unit);     // 24px
+    --sz-l   : calc(var(--base-rem-space-unit) * 2); // 48px
+    --sz-xl  : calc(var(--base-rem-space-unit) * 4); // 96px
+    --sz-xxl : calc(var(--base-rem-space-unit) * 8); // 192px
+
+    --m: var(--base-rem-space-unit);
+}

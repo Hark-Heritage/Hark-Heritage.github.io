@@ -1,0 +1,258 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    ELEMENTARY SETTINGS
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+@use 'sass:math';
+
+$e__ojbect_highlight: 0 0 0 $s__sz-xxs rgba(255,255,255,.4), 0 0 0 $s__sz-xs rgba(0,0,0,.2) !default;
+
+$e__body_max-width: 1080px !default;
+
+$e__content-measure: 70rem;
+
+/*-------------------------------------------------------------------------------------------------|
+
+    BANNER
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+//$e__banner--base-ui-color: var(--banner-background-color, var(--base-ui-color)) !default;
+//$e__banner--base-text-color: #fff !default;
+//$e__banner--background-color: $e__banner--base-ui-color !default;
+
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    BANNER - LOGO
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+$e__logo--invert: true !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    BANNER - NAVBAR
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+// Colours:
+
+//$e__nav-bar--base-ui-color:                 $e__banner--base-ui-color !default;
+//$e__nav-bar--base-text-color:               #fff !default;
+//
+//
+////$e__nav-bar--background-color:              $e__nav-bar--base-ui-color !default;
+//$e__nav-bar--background-color:              transparent !default;
+//
+////$e__nav-bar__link--color:                   #fff !default;
+//$e__nav-bar__link--color:                   $e__nav-bar--base-text-color !default;
+//$e__nav-bar__link--color--alt:              $e__nav-bar__link--color !default;
+//$e__nav-bar__link--background-color:        rgba(0,0,0,0.2) !default;
+//$e__nav-bar__link--background-color--alt:   rgba(255,255,255,0.08) !default;
+//$e__nav-bar__link--background-color--alt2:  rgba(0,0,0,0.6) !default;
+//
+//$e__nav-bar__link--border-color:            rgba(255,255,255,0.2) !default;
+//$e__nav-bar__link--border-style:            solid !default;
+//$e__nav-bar__link--border-width:            1px !default;
+
+//
+
+//
+//
+//$e__nav-bar__collapsible--background-color: lighten($e__banner--background-color, 5%) !default;
+//
+//
+//$e__sub-nav--background-color:              darken($e__nav-bar--base-ui-color, 20%) !default;
+//
+//$e__sub-nav__link--border-color:            rgba(255,255,255,0.3) !default;
+//$e__sub-nav__link--border-style:            dashed !default;
+//$e__sub-nav__link--border-width:            1px !default;
+//
+//
+//$e__sub-nav__link--color:                   $e__nav-bar__link--color !default;
+//$e__sub-nav__link--color--alt:              $e__sub-nav__link--color !default;
+//$e__sub-nav__link--background-color:        $e__sub-nav--background-color !default;
+//$e__sub-nav__link--background-color--alt:   lighten($e__sub-nav__link--background-color, 10%) !default;
+
+
+// Sizes:
+$e__nav-bar__link--border-radius:           $s__sz-xs !default;
+
+$e__nav-bar__link--spacing:                 $s__sz-s !default;
+
+$e__nav-bar--font-size:                     $s__base-font-size !default;
+$e__nav-bar--height:                        ($s__base-em-ratio * 1.5em) !default;
+$e__nav-bar--spacing:                       math.div($e__nav-bar--height, 8) !default;
+$e__nav-bar--margin-bottom:                 0 !default;
+$e__nav-bar__title--padding:                0 !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    MAIN
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+// Grid
+// Allow main position to be set based on actually markup in use:
+$e__main-position: 3 !default;
+
+$e__main-sidebar-left-balance: 5 !default;
+$e__main-sidebar-right-balance: 2 !default;
+
+$e__main-sidebar-balance: #{$e__main-sidebar-left-balance}fr #{$e__main-sidebar-right-balance}fr !default;
+
+$e__main-sidebar-balance-factor: math.div($e__main-sidebar-left-balance, ($e__main-sidebar-left-balance + $e__main-sidebar-right-balance)) !default;
+$e__main-width-breakpoint: math.div($e__body_max-width, $e__main-sidebar-balance-factor) !default;
+$e__main-sidebar-max-width: $e__main-sidebar-balance-factor * 100% !default;
+
+$e__main--text-color: $s__base-text-color !default;
+$e__main--background-color: #fff !default;
+
+/*-------------------------------------------------------------------------------------------------|
+
+    MAIN - CONTENT
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+
+$__e__content__figure-background: lighten($s__base-ui-color, 57%) !default;
+
+$e__content-sidebar-width: 30%;
+
+$e__toc-background-color: #eee;
+
+/*-------------------------------------------------------------------------------------------------|
+
+    MAIN - CONTENT - LISTING
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+$e__listing__display-type: false !default; // false | grid | balance-top
+$e__listing__gutter: $s__sz-m !default;
+
+$e__listing__item--basis: calc(100% - #{$e__listing__gutter}) !default;
+$e__listing__item--min-width: none !default;
+$e__listing__item--backgroud-color: transparent !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    SIDEBAR
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+//$e__sidebar--text-color: $s__base-text-color !default;
+//$e__sidebar--background-color: lighten($s__base-ui-color, 55%) !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    FOOTER
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+//$e__footer--text-color: #fff !default;
+//$e__footer--background-color: $s__base-ui-color !default;
+
+
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS
+    --------------------------------------------------------------------------------------------
+
+    Components are meant to be reusable in any context so extra care/steps have been taken with
+    the markup and selectors.
+
+|-------------------------------------------------------------------------------------------------*/
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS - CARD
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+//$e__component__card__background:    linear-gradient(to bottom, #ffffff 60%, lighten($s__base-ui-color, 65%) 100%) !default;
+//$e__component__card__border:        $s__border-width $s__border-style $s__base-ui-color !default;
+$e__component__card__border:        var(--card-border-width, #{$s__border-width * 4}) var(--card-border-style, #{$s__border-style}) var(--card-border-color, #fff) !default;
+$e__component__card__border-radius: $s__sz-s !default;
+
+$e__component__card__box-shadow:    0 0 $s__sz-xs 0 rgba(0,0,0,0.2) !default;
+
+//$e__component__card__image-ratio:   50% !default;
+$e__component__card__image-ratio:   33% !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS - CTA
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+//$e__component__cta__background:      #fff !default;
+//$e__component__cta__background--alt: var(--cta-background-color, var(--base-ui-color-lighter)) !default;
+//$e__component__cta__border:          var(--cta-border-width, #{$s__border-width * 2}) var(--cta-border-style, #{$s__border-style}) var(--cta-background-color, var(--base-ui-color)) !default;
+$e__component__cta__border:          0 none !default;
+$e__component__cta__border-radius:   $s__border-radius !default;
+
+$e__component__cta__box-shadow:      none !default;
+
+//$e__component__cta__image-ratio:     50% !default;
+$e__component__cta__image-ratio:     33% !default;
+
+$e__component__cta__padding:         calc(#{$s__sz-xs} - #{$s__border-width}) $s__sz-s;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS - HERO
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+//$e__component__hero__background:    linear-gradient(to bottom, #ffffff 60%, lighten($s__base-ui-color, 60%) 100%) !default;
+$e__component__hero__background:    var(--hero-background-color, var(--base-ui-color-lightest)) !default;
+
+//e__component__hero__image-ratio:   50% !default;
+$e__component__hero__image-ratio:   33% !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS - IMAGES
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+$e__image-border:     $s__border-width $s__border-style var(--base-ui-color) !default;
+$e__image-inset:      $s__sz-m !default;
+//$e__image-background: #fff !default;
+
+
+/*-------------------------------------------------------------------------------------------------|
+
+    COMPONENTS - INFO OVERLAY
+    --------------------------------------------------------------------------------------------
+
+|-------------------------------------------------------------------------------------------------*/
+
+$e__component__info-overlay__spacing-unit: $s__sz-m;
+$e__component__info-overlay__x-position: right; // left | right
+$e__component__info-overlay__y-position: top; // top | bottom

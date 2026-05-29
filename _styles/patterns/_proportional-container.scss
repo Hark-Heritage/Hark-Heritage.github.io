@@ -1,0 +1,56 @@
+// Help from http://www.mademyday.de/css-height-equals-width-with-pure-css.html
+// and https://css-tricks.com/snippets/sass/maintain-aspect-ratio-mixin/
+
+$proportions: (
+    "1-1": 100%,
+    "2-1": 50%,
+    "3-1": 33%,
+    "4-3": 75%,
+    "16-9": 56.25%
+) !default;
+
+.proportional-container {
+    position: relative;
+    overflow: hidden;
+}
+
+    .proportional-container::before {
+        content: "";
+        display: block;
+        width: 100%;
+        // No initial padding - best to be explicit.
+    }
+
+    .proportional-container__content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+    /* Make the image fill the width and be vertically centered: */
+    /* (in portrait images this will leave gaps at the sides) */
+    .proportional-container__image-cover {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* If `object-fit` is supported, use that and override vertical centering: */
+    @supports (object-fit:cover) {
+        .proportional-container__image-cover {
+            height: 100%;
+            object-fit: cover;
+            top: 0;
+            transform: none;
+        }
+    }
+
+    
+@each $ratio, $percent in $proportions {
+  .proportional-container--#{$ratio}::before {
+        padding-top: $percent;
+    }
+}

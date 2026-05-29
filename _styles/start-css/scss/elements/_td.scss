@@ -1,0 +1,29 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: td
+    v3.0.0
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*
+    1. Calc to deduct any border-width.
+*/
+#{$s__namespace}td {
+    padding-top: calc(#{$s__th-cell-padding} - #{$s__th-border-width}); /* 1 */
+    padding-right: $s__th-cell-padding;
+    padding-bottom: $s__th-cell-padding;
+    padding-left: $s__th-cell-padding;
+
+    border-width: var(--table-border-width, var(--base-border-width));
+    border-style: var(--table-border-style, var(--base-border-style));
+    border-color: var(---td-border-color, var(--table-color, var(--base-ui-color)));
+}
+
+/*
+    Reduce last row table cell padding to counteract the table border to preserve the vertical
+    rhythm.
+*/
+#{$s__namespace}tbody tr:last-child td {
+    padding-bottom: calc(#{$s__th-cell-padding} - #{$s__th-border-width}); /* 1 */
+}

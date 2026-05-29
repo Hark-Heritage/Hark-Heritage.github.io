@@ -1,0 +1,311 @@
+/*
+    Distribute items inside a container.
+
+*/
+$distribute-namespace: l- !default;
+
+
+$distribute-spacing-unit: 2rem !default;
+$distribute-spacing-unit--s: ($distribute-spacing-unit / 2) !default;
+$distribute-spacing-unit--l: ($distribute-spacing-unit * 2) !default;
+
+$distribute-bases: (
+    15,
+    20,
+    25,
+    30,
+    35
+) !default;
+
+/*
+    1. This is a hack for IE11, otherwise the container goes as wide as the children in a row.
+*/
+#{$es__page_main} > div > header ~ ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    display: flex;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: stretch;
+
+    //--s: 0;
+    
+    width: 0; /* [1] */
+    min-width: 100%; /* [1] */
+    
+    // See below, just picking a default here to begin with:
+    //justify-content: flex-start;
+    flex-basis: 15em;
+    max-width: 20em;
+    
+    padding: $distribute-spacing-unit--s / 2;
+    --s: #{$distribute-spacing-unit--s};
+}
+    
+#{$es__page_main} > div > header ~ ul > * {
+    flex: 0 1 auto;
+
+    margin: 0;
+    padding: 0;
+
+    //
+    padding: $distribute-spacing-unit--s / 2;
+    //--s: #{$distribute-spacing-unit--s};
+}
+
+
+/* Don't have classes here, so need to pick one.
+   Possible have it as a flag and allow selectors to be specified so could build multiple versions
+   of the patter?   
+    &#{&}--start {
+        justify-content: flex-start;
+    }
+
+    &#{&}--end {
+        justify-content: flex-end;
+    }
+    
+    &#{&}--limit-10 > * {
+        flex-basis: 7.5em;
+         max-width: 10em;
+    }
+
+    &#{&}--limit-15 > *  {
+        flex-basis: 11.25em;
+         max-width: 15em;
+    }
+
+    &#{&}--limit-20 > *  {
+        flex-basis: 15em;
+         max-width: 20em;
+    }
+
+    &#{&}--limit-25 > *  {
+        flex-basis: 18.75em;
+         max-width: 25em;
+    }
+
+    &#{&}--limit-30 > *  {
+        flex-basis: 22.5em;
+         max-width: 30em;
+    }
+
+    &#{&}--limit-35 > *  {
+        flex-basis: 26.25em;
+         max-width: 35em;
+    }
+
+    &#{&}--limit-40 > *  {
+        flex-basis: 30em;
+         max-width: 40em;
+    }
+    
+    // Add gutters:
+
+    &#{&}--gutter--s,
+    &#{&}--gutter--s > * {
+        padding: $distribute-spacing-unit--s / 2;
+        --s: #{$distribute-spacing-unit--s};
+    }
+
+    &#{&}--gutter,
+    &#{&}--gutter > *,
+    &#{&}--gutter--m,
+    &#{&}--gutter--m > * {
+        padding: $distribute-spacing-unit / 2;
+        --s: #{$distribute-spacing-unit};
+    }
+
+
+    &#{&}--gutter--l,
+    &#{&}--gutter--l > * {
+        padding: $distribute-spacing-unit--l / 2;
+        --s: #{$distribute-spacing-unit--l};
+    }
+    
+*/
+
+
+@supports (width: unquote("max(1px, 1px)")) {
+    #{$es__page_main} > div > header ~ ul {
+      flex-basis: auto;
+    }
+
+
+    /* 1 or more: */
+    #{$es__page_main} > div > header ~ ul > * {
+        flex-basis: 100%;
+        flex-grow: 1;
+    }
+
+
+
+    /* 2 or more: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+2),
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+2) ~ * {
+        flex-basis: unquote("max(50%, ((var(--b) * 2) - 100%) * 999)");
+    }
+
+
+
+    /* 3 or more: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+3),
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+3) ~ * {
+        flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(33%, ((var(--b) * 3) - 100%) * 999))");
+    }
+
+    /* 3 or more, different values for the first one: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+3) {
+        flex-basis: unquote("max(33%, ((var(--b) * 3) - 100%) * 999)");
+    }
+
+
+
+    /* 4 or more: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+4),
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+4) ~ * {
+        //flex-basis: unquote("min(max(50%, (var(--bp1) - 100%) * 999), max(25%, (var(--bp2) - 100%) * 999))");
+        flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(25%, ((var(--b) * 4) - 100%) * 999))");
+    }
+
+
+
+    /*
+    From here on in there are increasingly more possibilities on how things can be laid out.
+    More items = more possibilities. I've tried to go for what I consider to be the most balanced option but almost all other possibilities are achievable.
+    */
+
+
+
+    /* 5 or more: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+5),
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+5) ~ * {
+        flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(33%, ((var(--b) * 3) - 100%) * 999), max(25%, ((var(--b) * 4) - 100%) * 999), max(20%, ((var(--b) * 5) - 100%) * 999))");
+    }
+
+    /* 5 or more, different values for the first two: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+5),
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+5) + * {
+        flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(20%, ((var(--b) * 5) - 100%) * 999))");
+    }
+
+    /* 5 or more, different values for the first one: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+5) {
+        flex-basis: unquote("min(max(50%, ((var(--b) * 3) - 100%) * 999), max(100%, ((var(--b) * 4) - 100%) * 999), max(20%, ((var(--b) * 5) - 100%) * 999))");
+    }
+
+
+
+    /* 6 or more: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+6),
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+6) ~ * {
+        //flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(33%, ((var(--b) * 3) - 100%) * 999), max(25%, ((var(--b) * 4) - 100%) * 999), max(20%, ((var(--b) * 5) - 100%) * 999), max(16%, ((var(--b) * 6) - 100%) * 999))");
+        flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(33%, ((var(--b) * 3) - 100%) * 999), max(16%, ((var(--b) * 6) - 100%) * 999))");
+    }
+
+
+    /*
+        It's worth noting here that things get especially tricky and messy. We've already seen
+        with 6 we've had to skip some steps, and things like 7 and 11 are quite hard too.
+        Also with ANY amount, the practicalities of allowing all arrangements up to a single
+        row become limiting.
+        If you assume you have items that are quite small - and can therefore fit into a single
+        row - a small reduction in available width that causes wrapping would leave a very large
+        item on it's own row. This is the whole reason we want to balance things in the first
+        place, so that this doesn't happen - we want a reduction in available width that causes
+        wrapping to lead to MORE items being wrapped and thus creating a better balance.
+        It's just very hard to know where things SHOULD land.
+
+    */
+
+    
+    /* 7 or more: (1x7 | 1,2x3 | 1,3x2 | 3,4) */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+7),
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+7) ~ * {
+        flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(33%, ((var(--b) * 3) - 100%) * 999), max(25%, ((var(--b) * 4) - 100%) * 999), max(14%, ((var(--b) * 7) - 100%) * 999))");
+    }
+
+    /* 7 or more, different values for the second and third: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+7) + *,
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+7) + * + * {
+        flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(33%, ((var(--b) * 3) - 100%) * 999), max(14%, ((var(--b) * 7) - 100%) * 999))");
+    }
+    
+    /* 7 or more, different values for the first one: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+7) {
+        flex-basis: unquote("min(max(33%, ((var(--b) * 4) - 100%) * 999), max(14%, ((var(--b) * 7) - 100%) * 999))");
+    }
+    
+
+
+    /* 8 or more: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+8),
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+8) ~ * {
+        flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(25%, ((var(--b) * 4) - 100%) * 999), max(12%, ((var(--b) * 8) - 100%) * 999))");
+    }
+
+
+
+    /* 9 or more: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+9),
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+9) ~ * {
+        flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(33%, ((var(--b) * 3) - 100%) * 999), max(11%, ((var(--b) * 9) - 100%) * 999))");
+    }
+
+    /* 9 or more, different values for the first one: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+9) {
+        flex-basis: unquote("min(max(33%, ((var(--b) * 3) - 100%) * 999), max(11%, ((var(--b) * 9) - 100%) * 999))");
+    }
+
+
+
+    /* 10 or more: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+10),
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+10) ~ * {
+        flex-basis: unquote("min(max(50%, ((var(--b) * 2)- 100%) * 999), max(20%, ((var(--b) * 5) - 100%) * 999), max(10%, ((var(--b) * 10) - 100%) * 999))");
+    }
+
+
+
+    /* 11 or more: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+11),
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+11) ~ * {
+        //flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(20%, ((var(--b) * 5) - 100%) * 999), max(9%, ((var(--b) * 11) - 100%) * 999))");
+        flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(33%, ((var(--b) * 3) - 100%) * 999), max(9%, ((var(--b) * 11) - 100%) * 999))");
+    }
+    
+    /* 11 or more, different values for the second one: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+11) + * {
+        flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(9%, ((var(--b) * 11) - 100%) * 999))");
+    }
+    
+    /* 11 or more, different values for the first one: */
+    #{$es__page_main} > div > header ~ ul > :nth-last-child(n+11) {
+        flex-basis: unquote("min(max(50%, ((var(--b) * 3) - 100%) * 999), max(9%, ((var(--b) * 11) - 100%) * 999))");
+    }
+
+
+
+    /* 12 or more: double class to boost specificity - ugh.*/
+    &#{&}#{&}--balance-top > :nth-last-child(n+12),
+    &#{&}#{&}--balance-top > :nth-last-child(n+12) ~ * {
+        flex-basis: unquote("min(max(50%, ((var(--b) * 2) - 100%) * 999), max(33%, ((var(--b) * 3) - 100%) * 999), max(25%, ((var(--b) * 4) - 100%) * 999), max(16%, ((var(--b) * 6) - 100%) * 999), max(8%, ((var(--b) * 12) - 100%) * 999))");
+    }
+
+}
+    /* Just for the demo */
+    /*
+body {
+    padding: 2rem;
+    margin: 0 auto;
+    max-width: 80rem;
+}
+    #{$es__page_main} > div > header ~ ul > * {
+    height: 20vh;
+    background-color: #000;
+}
+*/

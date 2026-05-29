@@ -1,0 +1,45 @@
+# Site settings
+title: "Hark Heritage"
+email: "andykkirk@gmail.com"
+description: "Heritage consultancy."
+repository: "Hark-Heritage/Hark-Heritage.github.io"
+baseurl: ""
+url: "https://hark-heritage.uk/"
+port: 4008
+
+defaults:
+  -
+    scope:
+      path: "" # an empty string here means all files in the project
+    values:
+      head_scripts: false
+      head_stylesheets: false
+      head_style: false
+      body_class: false
+      body_end_script: false
+      load_highlighter: false
+
+
+# Build settings
+markdown: kramdown
+
+
+kramdown:
+  auto_ids:       true
+
+# Prevent github pages creating stuff:
+theme: null
+
+exclude: [
+    "_archive",
+    "bower.json",
+    "bower_components",
+    "Gemfile",
+    "Gemfile.lock",
+    "gulpfile.js",
+    "local-gulp.bat",
+    "local-jekyll.bat",
+    "node_modules",
+    "package.json",
+    "README.md"
+]

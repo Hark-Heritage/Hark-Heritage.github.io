@@ -1,0 +1,46 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    MAIN
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*
+    Expand main to fill space - part of sticky footer.
+
+    1. There's a wierd sitution on /page-layout-article/ where there's <pre> in a <div>
+       demonstrating the use of the <div> to create a full-width container (one that breaks
+       out of the max-width column). But the <pre> has long content and isn't scrolling,
+       it's pushing everything out to fit the content and I can't figure out a simple
+       fix (or even understand why it's doing it).
+       But, since we have a known max-width for the body and a known column balance, we can work out
+       what the max-width for the main column should be and use that in an  technique.
+
+*/
+#{$es__page_main} {
+    flex: 1 0 auto;
+
+    /* 1 */;
+    max-width: $e__main-sidebar-max-width;
+    width: calc((#{$e__main-width-breakpoint} - 100%) * 9999);
+    min-width: 100%;
+
+    min-height: 0;
+
+    margin: 0;
+
+    padding: 0;
+
+    --background-color: var(--main-color, #{$s__base-background-color});
+    @include s__theme(var(--main-color--text, #{$s__base-text-color}));
+}
+
+/*------------------------------------------------------------------------------------------------*/
+
+@import '2-main/_1-header.scss';
+@import '2-main/_2-breadcrumbs.scss';
+@import '2-main/_3-content.scss';
+//@import '2-main/_3-content-balancing.scss';
+@import '2-main/_3-content-listing.scss';
+@import '2-main/_4-content-sidebar.scss';
+@import '2-main/_5-content-footer.scss';

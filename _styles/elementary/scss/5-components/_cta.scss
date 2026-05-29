@@ -1,0 +1,42 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    CTA
+    ===
+
+|-------------------------------------------------------------------------------------------------*/
+
+@mixin component__cta($options: ()) {
+    #{map-get($options, selector)} {
+        --name: cta;
+
+        display: inline-block;
+
+        overflow: hidden;
+
+        margin: 0;
+
+        padding:       #{map-get($options, padding)};
+
+        border:        #{map-get($options, border)};
+        border-radius: #{map-get($options, border-radius)};
+
+        --background-color: var(--cta-color, var(--base-ui-color));
+        @include s__theme(var(--cta-color--text, var(--base-ui-color--text)));
+
+        box-shadow:    #{map-get($options, box-shadow)};
+
+        font-weight:   normal;
+        line-height:   $s__sz-m;
+
+        vertical-align: middle;
+
+        text-decoration: none;
+
+        &:hover,
+        &:active,
+        &:focus {
+            --background-color: var(--cta-color, var(--base-ui-color-light));
+            @include s__theme(var(--cta-color--text, var(--base-ui-color-light--text)));
+        }
+    }
+}

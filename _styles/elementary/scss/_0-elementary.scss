@@ -1,0 +1,202 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    ELEMENTARY
+    ============================================================================================
+
+    Expected structure for core Elementary to work:
+
+    <html>
+    <head>
+        ...
+    </head>
+    <body>
+        <hidden elements like svg and css-only message>
+        <header>
+        <main>
+        ?<aside> [1]
+        <footer>
+        ?<script> [1]
+    </body>
+    </html>
+
+    NOTES
+    -----
+
+    1.  These elements are optional, and there could be more than one <script> element, but the
+        MAIN POSITION SELECTOR (below) needs to be altered via the $main_position_selector variable
+        so that it takes into account the number of elements invoked.
+        Note that the way this works accounts for there *sometimes* being an aside present or not
+        (so if it's not there the selector matches the main element and makes it span both columns).
+
+
+|-------------------------------------------------------------------------------------------------*/
+
+@import '_00-1-settings.scss';
+@import '_00-2-mixins.scss';
+@import '_00-3-selectors.scss';
+
+//:root {
+//    /*
+//    --card_background-color: var(--base-ui-color-lightest);
+//    --card-border-width: 0.4rem;
+//    --card-border-style: solid;
+//    --card-border-color: #fff;
+//    */
+//}
+
+/*
+    Sticky Footer needs this
+*/
+html,
+body {
+    height: 100%;
+}
+
+/*
+    Note we still need the flexbox for the sticky footer in the event of no Grid support or narrower
+    viewports where the Grid isn't applied but the content is still small enough to need the sticky
+    footer behavior.
+*/
+body {
+    display: flex;
+    flex-direction: column;
+
+    max-width: $e__body_max-width;
+
+    padding: 0;
+}
+
+body > * {
+    flex: 0 0 auto;
+}
+
+
+/* Grid */
+
+@supports(display:grid) {
+    @media only screen and (min-width:50em) {
+
+        body {
+            display: grid;
+            align-items: stretch;
+
+            width: auto;
+
+            height: auto;
+            min-height: 100%;
+
+            grid-template-columns: $e__main-sidebar-balance;
+            //grid-template-rows: max-content auto max-content;
+            grid-template-rows: auto auto minmax(auto, 1fr) auto;
+        }
+
+        #{$es__page_banner},
+        #{$es__page_footer} {
+            padding: $s__sz-s;
+
+            grid-column: 1 / -1;
+        }
+
+        #{$es__page_banner} {
+            grid-row: 1;
+        }
+
+
+
+        #{$es__page_main} {
+            grid-column: 1;
+
+            grid-row: 2 / -1; // < added
+
+            max-width: 100%;
+        }
+
+        /*
+            If there's no asides at all, we want the main to span both rows. Note this is the
+            only way I can think of doing this, but it's fragile - it will break if elements at this
+            level get added or removed. (note :has() would be better when supoort is good enough)
+            #{$es__page_main_after_banner}:has(+ :not(aside)) {
+        */
+        #{$es__page_main_after_banner}:nth-last-child(#{$e__main-position}) {
+            grid-column: 1 / -1;
+        }
+
+
+        #{$es__page_sidebar} {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        /*
+            If there's no 'bottom' aside, we want the first one span 2 columns. Note this is the
+            only way I can think of doing this, but it's fragile - it will break if elements at this
+            level get added or removed.
+        */
+        #{$es__page_sidebar}:nth-last-child(#{$e__main-position + 1}) {
+            grid-row: 2 / -1;
+        }
+
+        #{$es__page_sidebar_after_main} {
+            grid-column: 2;
+            grid-row: 3;
+        }
+
+
+        /*
+            MAIN POSITION SELECTOR
+
+            If there's no aside (sidebar) then main has to span both columns:
+            Note this is fragile and depends on following the Elementary pattern absolutely.
+            What it says is that if main is the X from last element, it spans all columns.
+            If there are more elements after the `main` element (as in, there's the extra `aside`),
+            then the selector won't match. Change this in local SCSS and be wary of adding or
+            removing elements via JS.
+
+        */
+        /*#{$es__page_main}:nth-last-child(#{$e__main-position}) {
+            grid-column: 1 / -1;
+        }*/
+
+        #{$es__page_footer} {
+            grid-row: -1;
+        }
+
+    }
+}
+
+
+/*------------------------------------------------------------------------------------------------*/
+
+@import '_1-banner.scss';
+@import '_2-main.scss';
+@import '_3-sidebar.scss';
+@import '_4-footer.scss';
+@import '_5-components.scss';
+
+
+
+/*---*/
+
+/*
+    Greybox
+*/
+/*
+#{$es__page_banner},
+#{$es__page_footer} {
+    background: #ddd;
+}
+
+body > aside {
+    background: #ccc;
+}
+
+/*
+main > div > ul > li > a[href],
+main > div > ul > li > article {
+
+    padding: $s__sz-m;
+    background: #ddd;
+    display: block;
+    margin: 0;
+}
+*/

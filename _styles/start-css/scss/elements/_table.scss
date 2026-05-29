@@ -1,0 +1,20 @@
+/*-------------------------------------------------------------------------------------------------|
+
+    START-CSS ELEMENT: table
+    v3.0.0
+    ============================================================================================
+
+|-------------------------------------------------------------------------------------------------*/
+
+/*
+*/
+#{$s__namespace}table {
+    width: 100%;
+    /* @TODO - possibly make this configurable to be 'natural' width but cantered instead. (http://alistapart.com/article/web-typography-tables) */
+
+    @include s__margins($s__base-rem-space-unit, $s__margin-type);
+
+    border-color: var(--table-color, var(--base-ui-color));
+    border-collapse: collapse;
+    border-spacing: 0;
+}
